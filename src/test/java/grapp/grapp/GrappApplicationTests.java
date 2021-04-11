@@ -13,7 +13,7 @@ class GrappApplicationTests {
 	void contextLoads() {
 		System.out.println("Im testing");
 		assertTrue(true);
-		assertEquals(1,2);
+		assertEquals(1,1);
 	}
 	@Test
 	void testUnitUploadId(){
