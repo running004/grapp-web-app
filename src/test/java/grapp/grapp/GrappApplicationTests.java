@@ -1,6 +1,8 @@
 package grapp.grapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -17,9 +19,36 @@ class GrappApplicationTests {
 	}
 	
 	@Test
-	void testUnitUploadImg(){
+	void testUnitGenerateIdImg(){
 		try{
-			UnitTestUpload.ImgInsertTest();
-		}catch(Exception e){}
+			String generatedId = UnitTestUpload.UnitGenerateIdImg();
+			assertNotEquals(generatedId, "Hubo un fallo");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			assertTrue(false);
+		}	
+	}
+
+	@Test
+	void testUnitGenerateURLImg(){
+		try{
+			String resultadoUrl = UnitTestUpload.UnitGenerateURLImg("GWI0E4f");
+			assertEquals(resultadoUrl, "https://i.imgur.com/GWI0E4f.jpg");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	void testIntegrationUploadImg(){
+		try{
+        String generatedId = UnitTestUpload.UnitGenerateIdImg();
+        String resultadoUrl = UnitTestUpload.UnitGenerateURLImg(generatedId);
+		assertEquals(resultadoUrl, "https://i.imgur.com/"+generatedId+".jpg");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			assertTrue(false);
+		}
 	}
 }

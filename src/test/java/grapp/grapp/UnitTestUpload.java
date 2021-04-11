@@ -1,6 +1,8 @@
 package grapp.grapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import org.springframework.mock.web.MockMultipartFile;
@@ -28,12 +30,15 @@ public class UnitTestUpload {
         .andExpect(MockMvcResultMatchers.model().attribute("userID", "Prueba Pepe"));
     }
     */
-    static void ImgInsertTest()throws Exception{
+    static String UnitGenerateIdImg()throws Exception{
         File file = new File("src/main/resources/static/images/conjuntos/conjuntoEjemplo.png"); 
         FileInputStream input = new FileInputStream(file); 
         MultipartFile multipartImg = new MockMultipartFile("image", file.getName(), "image/png", input);
         String generatedId = imgUrlScraper.uploadImg(multipartImg);
+        return generatedId;
+   }
+    static String UnitGenerateURLImg(String generatedId)throws Exception{  
         String resultadoUrl = imgUrlScraper.getImageUrl(generatedId);
-        assertEquals("https://i.imgur.com/"+generatedId+".jpg", resultadoUrl);
+        return resultadoUrl;
    }
 }
