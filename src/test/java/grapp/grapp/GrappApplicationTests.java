@@ -15,25 +15,11 @@ class GrappApplicationTests {
 		assertTrue(true);
 		assertEquals(1,1);
 	}
-	/*
-	@Test
-	void testUnitUploadId(){
-		UnitTestUpload test = new UnitTestUpload();
-		try{
-			test.setUp();
-			test.IdInsertTest();
-		}catch(Exception e){
-
-		}
-	}
 	
 	@Test
 	void testUnitUploadImg(){
-		UnitTestUpload test = new UnitTestUpload();
 		try{
-			test.ImgInsertTest();
+			UnitTestUpload.ImgInsertTest();
 		}catch(Exception e){}
 	}
-	*/
-
 }
