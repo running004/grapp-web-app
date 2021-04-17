@@ -1,4 +1,4 @@
-package grapp;
+package grapp.grapp;
 
 public class Usuario {
     private String nombre;
