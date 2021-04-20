@@ -1,3 +1,5 @@
+![](https://github.com/bdmariobd/grapp-web-app/workflows/tests.yml/badge.svg)
+
 # GuardaRopApp
 
 ## Introduccion
