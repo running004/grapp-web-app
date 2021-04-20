@@ -6,3 +6,5 @@
 
   report_individual_runs: "true"
   check_run_annotations: "all tests"
+
+  runs-on: windows-latest
