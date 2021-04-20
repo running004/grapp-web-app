@@ -63,7 +63,7 @@ public class appController implements ErrorController{
             model.addAttribute("id", generatedId);
             model.addAttribute("userID", userID);
 
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS imgs (idUser varchar(10), idImg varchar(10))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS USUARIOS(email VARCHAR(10), contraseña VARCHAR(10))");
             stmt.executeUpdate("INSERT INTO imgs VALUES ('" + userID + "', '" + generatedId  + "')");
             ResultSet rs = stmt.executeQuery("SELECT count(*) as check FROM imgs WHERE idUser='"+userID+"' AND idImg='"+generatedId+"'");
             Boolean output = rs.next();
