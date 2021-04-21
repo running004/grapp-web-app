@@ -127,7 +127,7 @@ public class appController implements ErrorController{
         model.addAttribute("usuarioLogin", usuarioLoggeado);
         System.out.println(usuario.getEmail());
         System.out.println(usuario.getContrasenia());
-      
+        usuario.hashContrasenia(usuario.getContrasenia());
         
         //aqui me haria un servicio que llame a la base de datos pasandole un mail y q compruebe que existe
         /*
