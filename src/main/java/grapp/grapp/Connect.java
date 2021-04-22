@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.SQLException;
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -12,6 +13,13 @@ public class Connect {
     
     @Value("${spring.datasource.url}")
     private String dbUrl;
+
+    @Autowired
+    private DataSource dataSource;
+
+    public DataSource getDataSource(){
+      return dataSource;
+    }
 
 
     @Bean
