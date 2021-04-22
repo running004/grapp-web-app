@@ -78,7 +78,7 @@ public class User
     public boolean searchUser(String email, String contrasenia){
         Connect connection = new Connect();
         boolean logueado = false;
-        try (Connection c = connection.dataSource().getConnection()) {
+        try (Connection c = connection.getDataSource().getConnection()) {
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE email='"+email+"' AND contrasenia='"+contrasenia+"' ");
             if(rs.next()) logueado = true;
