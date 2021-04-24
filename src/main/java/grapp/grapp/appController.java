@@ -64,7 +64,8 @@ public class appController implements ErrorController{
     String uploadPost(Model model, @Valid formulario formulario, BindingResult bindingResult){
         
         //bbddd
-        try (Connection connection = dataSource.getConnection()) {
+        Connect connect = new Connect();
+        try (Connection connection = connect.getDataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             //upload photo
             String generatedId = imgUrlScraper.uploadImg(formulario.getImg());
@@ -111,13 +112,26 @@ public class appController implements ErrorController{
     String signup(Model model,@Valid formulario formulario){        
         return "signup.html";
     }
+    @RequestMapping(value = "/crearusuario", method = RequestMethod.GET)
+    public String crearUsuario(Model model, User usuario) {
+        Boolean existe=usuario.searchUserForSingUp(usuario.getEmail());
 
+        if(existe){
+            //mandar error al html de user ya creado
+		model.addAttribute("yaCreado", existe);
+            return "/singup";
+        }
+        else{
+            usuario.insertUser(usuario.getEmail(), usuario.getContrasenia());
+        }
+        return "/";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String crearFormularioUsuario(Model model) {
 		User usuario = new User();
 		model.addAttribute("usuario", usuario);
-		return "login"; 
+		return "login.html"; 
 	}
 //---------------------------------------------------------------------------
     //COMPROBAMOS EL INICIO DE SESION
@@ -127,7 +141,7 @@ public class appController implements ErrorController{
         model.addAttribute("usuarioLogin", usuarioLoggeado);
         System.out.println(usuario.getEmail());
         System.out.println(usuario.getContrasenia());
-      
+        usuario.hashContrasenia(usuario.getContrasenia());
         
         //aqui me haria un servicio que llame a la base de datos pasandole un mail y q compruebe que existe
         /*
@@ -140,7 +154,6 @@ public class appController implements ErrorController{
                     (usuario.getContrasenia().equals(usu.getContrasenia()))	) {
                 return "redirect:AQUI PONES EL HTML QUE QUIERAS";
             }else {
-
                 model.addAttribute("usuario", usuar);
                 model.addAttribute("mensaje", "Usuario o contraseña invalidos");
                 return "login"; 
@@ -150,21 +163,16 @@ public class appController implements ErrorController{
         model.addAttribute("mensaje", "Usuario o contraseña invalidos");
         return "login"; 
         */
-        return "index";
+        return "index.html";
 
     }
 
 //---------------------------------------------------------------------------
 
-
-
-
-
-
-
     @PostMapping(value="/see")
     String seePost(Model model, @Valid formulario formulario, BindingResult bindingResult){
-        try (Connection connection = dataSource.getConnection()) {
+        Connect connect = new Connect();
+        try (Connection connection = connect.dataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT idImg FROM imgs WHERE idUser='" + formulario.getText() +"'");
             Map<String, String> imgUrlMap= new HashMap<String, String>();
