@@ -108,19 +108,19 @@ public class appController implements ErrorController{
     String signup(Model model,@Valid formulario formulario){        
         return "signup.html";
     }
-    @RequestMapping(value = "/crearusuario", method = RequestMethod.GET)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String crearUsuario(Model model, User usuario) {
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail());
 
         if(existe){
             //mandar error al html de user ya creado
 		model.addAttribute("yaCreado", existe);
-            return "/singup";
+            return "/signup";
         }
         else{
             usuario.insertUser(usuario.getEmail(), usuario.getContrasenia());
         }
-        return "/";
+        return "signup/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
