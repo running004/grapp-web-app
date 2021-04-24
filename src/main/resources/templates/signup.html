@@ -13,7 +13,8 @@
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <form action="user.java" method="post">
+        <form th:action="@{/crearUsuario}" th:object="${usuario}" method="get">
+
           <!--<div class="mb-3">
             <label for="exampleInputNombre1" class="form-label">Nombre</label>
             <input type="nombre" name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -21,21 +22,35 @@
           <div class="mb-3">
             <label for="exampleInputApellido1" class="form-label">Apellidos</label>
             <input type="apellidos" name="apellidos" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>-->
+          </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">E-mail</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
+
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-            <input type="password" name="cotraseña" class="form-control" id="exampleInputPassword1">
+            <input type="password" name="cotrasenia" class="form-control" id="exampleInputPassword1">
             <div id="passwordHelpBlock" class="form-text">
               Su contraseña debe tener entre 8 y 15 caracteres, contener letras y números, y no debe contener espacios, caracteres especiales ni emojis.
             </div> 
           </div>
+
+          -->
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">E-mail / nick</label>
+            <input type="email" th:field="*{email}" class="form-control" aria-describedby="emailHelp">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+            <input type="password" th:field="*{contrasenia}" class="form-control" >
+          </div>
+
+          
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Repetir Contraseña</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <input type="password" th:field="*{contrasenia}" class="form-control" >
           </div>
           <br>
           <br>
