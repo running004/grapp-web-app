@@ -75,9 +75,6 @@ public class User
 		return sb.toString();
 	}
     public String insertUser(String email, String contrasenia, DataSource dataSource){
-        if(this.contrasenia!=this.contraseniaRepetida){
-            return "Las contraseñas no coindiden.";
-        }
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
             stmt.executeQuery("INSERT INTO USUARIOS VALUES ("+ email + ", " + hashContrasenia(contrasenia) +")");

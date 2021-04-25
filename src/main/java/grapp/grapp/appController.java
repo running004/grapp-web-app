@@ -115,8 +115,13 @@ public class appController implements ErrorController{
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String crearUsuario(Model model, User usuario) {
+        
+        if(usuario.getContrasenia()!=usuario.getContraseniaR()){
+             //mandar error al html de contraseña mal
+		model.addAttribute("contraseña erronea", true);
+        return "/signup";
+        }
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail(), dataSource);
-
         if(existe){
             //mandar error al html de user ya creado
 		model.addAttribute("yaCreado", existe);
