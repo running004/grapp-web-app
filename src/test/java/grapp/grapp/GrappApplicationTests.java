@@ -51,4 +51,16 @@ class GrappApplicationTests {
 			assertTrue(false);
 		}
 	}
+
+	@Test
+	void testIntegrationUserValidation(){
+		User usuario = new User("jpcarrera@ucm.es", "1234", "1234");
+		try{
+			boolean ok = usuario.comprobarDatos();
+        	assertTrue(ok);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			assertTrue(false);
+		}
+	}
 }
