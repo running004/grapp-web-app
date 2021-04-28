@@ -136,7 +136,7 @@ public class appController implements ErrorController{
             //mandar error al html de contraseña mal
 		model.addAttribute("contraseniaMal", true);
         }
-        else if(usuario.getContrasenia()!=usuario.getContraseniaR()){
+        else if(usuario.getContrasenia()!=usuario.getContraseniaRepetida()){
              //mandar error al html de contraseñaR mal
 		model.addAttribute("contraseniaRMal", true);
         }
