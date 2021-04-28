@@ -13,10 +13,10 @@ public class User
     private String email, contrasenia, contraseniaRepetida;
     public User(){
     }
-    public User(String email, String contrasenia, String contraseniaR) {
+    public User(String email, String contrasenia, String contraseniaRepetida) {
         this.email = email;
         this.contrasenia = contrasenia;
-        this.contraseniaRepetida=contraseniaR;
+        this.contraseniaRepetida=contraseniaRepetida;
         /*this.email = email;
         this.apellidos = apellidos;*/
     }
@@ -32,7 +32,7 @@ public class User
     public String getContrasenia() {
         return contrasenia;
     }
-    public String getContraseniaR() {
+    public String getContraseniaRepetida() {
         return contraseniaRepetida;
     }
     
@@ -47,8 +47,8 @@ public class User
         this.contrasenia = contrasenia;
     }
     
-    public void setContraseniaR(String contraseniaR) {
-        this.contraseniaRepetida = contraseniaR;
+    public void setContraseniaRepetida(String contraseniaRepetida) {
+        this.contraseniaRepetida = contraseniaRepetida;
     }
     public void setEmail(String email) {
         this.email = email;
