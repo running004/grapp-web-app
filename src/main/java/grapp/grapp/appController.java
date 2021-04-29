@@ -167,6 +167,22 @@ public class appController implements ErrorController{
         botonLog(model);
 		return "login.html"; 
 	}
+
+    // LOGIN
+    @RequestMapping(value = "/loguearse", method = RequestMethod.GET)
+    public String login(Model model, User usuario) {
+        
+        // por usuario me entran el correo y la contraseña
+        System.out.println(usuario.getEmail());
+        //comprobamos validez
+        this.comprobarUsuario(model, usuario);
+
+        //quedaria iniciar la sesion
+
+        return "index.html";
+    }
+
+
 //---------------------------------------------------------------------------
     //COMPROBAMOS EL INICIO DE SESION
     @RequestMapping(value = "/comprobarusuario", method = RequestMethod.GET)
