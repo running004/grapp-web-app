@@ -57,6 +57,12 @@ public class appController implements ErrorController{
         botonLog(model);
         return "index.html";
     }
+    @GetMapping(value="/MiArmario")
+    String MiArmario(Model model,@Valid formulario formulario){
+        botonLog(model);
+        return "MiArmario.html";
+    }
+
 
     @GetMapping(value="/upload")
     String upload(Model model,@Valid formulario formulario){
@@ -145,7 +151,7 @@ public class appController implements ErrorController{
              //mandar error al html de contraseñaR mal
 		model.addAttribute("contraseniaRMal", true);
         }
-        return "signup.html";
+        return "index.html";
     }
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail(), dataSource);
         if(existe){
@@ -156,8 +162,9 @@ public class appController implements ErrorController{
         else{
             usuario.insertUser(usuario.getEmail(), usuario.getContrasenia(), dataSource);
         }
+        usuarioLoggeado = true;
         botonLog(model);
-        return "login.html";
+        return "index.html";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

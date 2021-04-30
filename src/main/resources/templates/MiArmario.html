@@ -9,38 +9,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Photo</title>
+    <title>Mi Armario</title>
 </head>
 <body>
     <header th:insert="fragments/header.html"></header>
     <div class="container espacio2">
-        <h2>Añadir prenda</h2>
-        <form action="/addRopa" method="POST" th:object="${formulario}" enctype='multipart/form-data'>
-            <div class="row">
-                <div class="col">
-                  <input th:field="*{text}" type="text" class="form-control" placeholder="Nombre de la prenda" aria-label="First name">
-                </div>
-                <br><br>
-                <div class="input-group mb-3">
-                    <input th:field="*{img}" type="file" class="form-control" id="inputGroupFile02">
-                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                </div>
-                  <button type="submit" class="btn btn-primary">Subir</button>
-            </div>
-              
-          </form>
-
-          <div class="formResult">
-                <hr>
-                <p>Aqui abajo se generará tu id</p>
-                <p style="color:aqua" th:text="${id}">Ok</p>
-                <p>Subiste esta imagen</p>
-                <img th:src="${imgUrl}"/>
-                <p>A este usuario</p>
-                <p style="color:darkcyan" th:text="${userID}">Ok</p>
-                <p style="color: red;" th:text="${excepcion}">OK</p>
-          </div>
-          <p th:text="${exito}">exito</p>
+        <h2>Mi Armario</h2>
+        <button type="button" class="btn btn-danger btn-lg" th:href="@{upload}" role="button">Añadir</button>
+        <button type="button" class="btn btn-primary btn-lg">Buscar</button>
     </div>
 
     <footer th:insert="fragments/footer.html"></footer>
