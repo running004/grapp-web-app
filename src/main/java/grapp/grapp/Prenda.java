@@ -8,14 +8,14 @@ import java.sql.Statement;
 
 public class Prenda
 {
-    private String emailUser, foto;
+    private String nombre, emailUser, foto, descripcion;
     public Prenda(){
     }
-    public Prenda(String emailUser, String foto) {
+    public Prenda(String nombre,String emailUser, String foto, String descripcion) {
+        this.nombre=nombre;
         this.emailUser = emailUser;
         this.foto = foto;
-        /*this.emailUser = emailUser;
-        this.apellidos = apellidos;*/
+        this.descripcion=descripcion;
     }
 
     public String getemailUser() {
@@ -24,37 +24,30 @@ public class Prenda
     public String getfoto() {
         return foto;
     }
+    public String getnombre() {
+        return nombre;
+    }
+    public String getdescripcion() {
+        return descripcion;
+    }
     public void setfoto(String foto) {
         this.foto = foto;
     }
-    
+    public void setnombre(String nombre) {
+        this.nombre = nombre;
+    }
     public void setemailUser(String emailUser) {
         this.emailUser = emailUser;
     }
-    /*
-    public Boolean login(String emailUser, String foto){
-        return this.emailUser.equals(emailUser) && this.foto.equals(foto);
+    public void setdescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
-*/
-    public String hashfoto(String password) {
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} 
-		catch (NoSuchAlgorithmException e) {		
-			e.printStackTrace();
-			return null;
-		}
-		    
-		byte[] hash = md.digest(password.getBytes());
-		StringBuffer sb = new StringBuffer();
-		    
-		for(byte b : hash) {        
-			sb.append(String.format("%02x", b));
-		}
-		    
-		return sb.toString();
-	}
+    
+public boolean comprobarDatos(){
+    if(this.nombre.length()>50) return false; // falta poner que no haya caracteres raros
+    if(this.descripcion.length()> 280) return false;
+    return true;
+}
     /*
     public String insertUser(String emailUser, String foto, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {

@@ -57,6 +57,13 @@ public class appController implements ErrorController{
         botonLog(model);
         return "index.html";
     }
+    @GetMapping(value="/MiArmario")
+    String MiArmario(Model model,@Valid formulario formulario){
+        model.addAttribute("usuarioLogin", false);
+        botonLog(model);
+        return "MiArmario.html";
+    }
+
 
     @GetMapping(value="/upload")
     String upload(Model model,@Valid formulario formulario){
@@ -96,6 +103,11 @@ public class appController implements ErrorController{
         return "upload.html";
     }
 
+    @GetMapping(value="/searchPrenda")
+    String searchPrenda(Model model,@Valid formulario formulario){        
+        botonLog(model);
+        return "searchPrenda";
+    }
     @GetMapping(value="/see")
     String see(Model model,@Valid formulario formulario){        
         botonLog(model);
@@ -126,7 +138,12 @@ public class appController implements ErrorController{
     public String crearUsuario(Model model, User usuario) {
 
         //VALIDAR DATOS
-
+        if(usuario.getEmail()==null || usuario.getContrasenia()==null || usuario.getContraseniaRepetida() == null){
+            //mandar error al html de email mal
+            model.addAttribute("faltan datos", true);
+            return "signup.html";
+        }
+        
         if(!usuario.comprobarDatos()){
         if(!usuario.validarMail(usuario.getEmail())){
                 //mandar error al html de email mal
@@ -136,23 +153,24 @@ public class appController implements ErrorController{
             //mandar error al html de contraseña mal
 		model.addAttribute("contraseniaMal", true);
         }
-        else if(usuario.getContrasenia()!=usuario.getContraseniaR()){
+        else if(usuario.getContrasenia()!=usuario.getContraseniaRepetida()){
              //mandar error al html de contraseñaR mal
 		model.addAttribute("contraseniaRMal", true);
         }
-        return "/signup";
+        return "index.html";
     }
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail(), dataSource);
         if(existe){
             //mandar error al html de user ya creado
 		model.addAttribute("yaCreado", existe);
-            return "/signup";
+            return "signup.html";
         }
         else{
             usuario.insertUser(usuario.getEmail(), usuario.getContrasenia(), dataSource);
         }
+        usuarioLoggeado = true;
         botonLog(model);
-        return "login.html";
+        return "index.html";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -162,6 +180,22 @@ public class appController implements ErrorController{
         botonLog(model);
 		return "login.html"; 
 	}
+
+    // LOGIN
+    @RequestMapping(value = "/loguearse", method = RequestMethod.GET)
+    public String login(Model model, User usuario) {
+        
+        // por usuario me entran el correo y la contraseña
+        System.out.println(usuario.getEmail());
+        //comprobamos validez
+        this.comprobarUsuario(model, usuario);
+
+        //quedaria iniciar la sesion
+
+        return "index.html";
+    }
+
+
 //---------------------------------------------------------------------------
     //COMPROBAMOS EL INICIO DE SESION
     @RequestMapping(value = "/comprobarusuario", method = RequestMethod.GET)
