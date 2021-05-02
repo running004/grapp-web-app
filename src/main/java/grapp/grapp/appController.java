@@ -145,7 +145,7 @@ public class appController implements ErrorController{
         }
         
         if(!usuario.comprobarDatos()){
-        if(!usuario.validarMail(usuario.getEmail())){
+        if(!usuario.validarMail()){
                 //mandar error al html de email mal
             model.addAttribute("correoMal", true);
             }

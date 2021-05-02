@@ -53,11 +53,11 @@ public class User
     public void setEmail(String email) {
         this.email = email;
     }
-    public boolean validarMail(String email) {
-        if (!email.equals("")) {
+    public boolean validarMail() {
+        if (!this.email.equals("")) {
              Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
              + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-             Matcher mather = pattern.matcher(email);
+             Matcher mather = pattern.matcher(this.email);
              return mather.find();
          } else {
              return true;
@@ -66,7 +66,7 @@ public class User
      }
 
     public Boolean comprobarDatos(){
-        if(!validarMail(this.email)) return false;
+        if(!validarMail()) return false;
         if(this.contrasenia.length()<8) return false;
         if(!this.contrasenia.equals(contraseniaRepetida)) return false;
          return true;
