@@ -65,11 +65,12 @@ public class User
          // end-user-code
      }
 
-    public Boolean comprobarDatos(){
-        if(!validarMail()) return false;
-        if(this.contrasenia.length()<8) return false;
-        if(!this.contrasenia.equals(contraseniaRepetida)) return false;
-         return true;
+    public String comprobarDatos(){
+        if(this.email==null || this.contrasenia==null || this.contraseniaRepetida==null ) return "Completa todos los campos";
+        if(!validarMail()) return "Error de formato del correo.";
+        if(this.contrasenia.length()<8) return "La contraseña tiene que ser mayor de 8 caracteres";
+        if(!this.contrasenia.equals(contraseniaRepetida)) return "La contraseña no coincide";
+         return null;
     }
     public Boolean login(String email, String contrasenia){
         return this.email.equals(email) && this.contrasenia.equals(contrasenia);

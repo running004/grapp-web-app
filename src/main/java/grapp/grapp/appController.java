@@ -136,28 +136,10 @@ public class appController implements ErrorController{
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String crearUsuario(Model model, User usuario) {
-
-        //VALIDAR DATOS
-        if(usuario.getEmail()==null || usuario.getContrasenia()==null || usuario.getContraseniaRepetida() == null){
-            //mandar error al html de email mal
-            model.addAttribute("faltan datos", true);
-            return "signup.html";
-        }
         
-        if(!usuario.comprobarDatos()){
-        if(!usuario.validarMail()){
-                //mandar error al html de email mal
-            model.addAttribute("correoMal", true);
-            }
-        else if(usuario.getContrasenia().length()<8){
-            //mandar error al html de contraseña mal
-		model.addAttribute("contraseniaMal", true);
-        }
-        else if(usuario.getContrasenia()!=usuario.getContraseniaRepetida()){
-             //mandar error al html de contraseñaR mal
-		model.addAttribute("contraseniaRMal", true);
-        }
-        return "index.html";
+        if(usuario.comprobarDatos()!=null){
+            model.addAttribute("errorDatos", usuario.comprobarDatos());
+        return "signup.html";
     }
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail(), dataSource);
         if(existe){

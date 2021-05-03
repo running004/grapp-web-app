@@ -83,7 +83,13 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-	</dependencies>
+	
+   <dependency>
+     <groupId>com.github.sink772</groupId>
+     <artifactId>javaee-scorex</artifactId>
+     <version>0.5.2</version>
+   </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
