@@ -62,7 +62,7 @@ public class User
          } else {
              return true;
          }
-         // end-user-code
+         // end-user-code<
      }
 
     public String comprobarDatos(){
