@@ -135,12 +135,12 @@ public class appController implements ErrorController{
         return "signup.html";
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String crearUsuario(Model model, User usuario) {
+    public String crearUsuario(User usuario,Model model) {
         
         if(usuario.comprobarDatos()!=null){
             model.addAttribute("errorDatos", usuario.comprobarDatos());
         return "signup.html";
-    }
+        }
         Boolean existe=usuario.searchUserForSingUp(usuario.getEmail(), dataSource);
         if(existe){
             //mandar error al html de user ya creado
@@ -152,7 +152,7 @@ public class appController implements ErrorController{
         }
         usuarioLoggeado = true;
         botonLog(model);
-        return "index.html";
+        return "login.html";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

@@ -64,7 +64,9 @@ public class User
          }
          // end-user-code<
      }
-
+/**
+ * 
+ */
     public String comprobarDatos(){
         if(this.email==null || this.contrasenia==null || this.contraseniaRepetida==null ) return "Completa todos los campos";
         if(!validarMail()) return "Error de formato del correo.";
