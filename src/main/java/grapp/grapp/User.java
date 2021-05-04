@@ -17,28 +17,17 @@ public class User
         this.email = email;
         this.contrasenia = contrasenia;
         this.contraseniaRepetida=contraseniaRepetida;
-        /*this.email = email;
-        this.apellidos = apellidos;*/
     }
-    /*public String getNombre() {
-        return nombre;
-    }*/
     public String getEmail() {
         return email;
     }
-    /*public String getApellidos() {
-        return apellidos;
-    }*/
+    public String getContraseniaRepetida() {
+        return contraseniaRepetida;
+    }
     public String getContrasenia() {
         return contrasenia;
     }
 
-    /*public void setNombre(String nombre) {
-        this.nombre=nombre;
-    }
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }*/
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
@@ -59,7 +48,6 @@ public class User
          } else {
              return true;
          }
-         // end-user-code<
      }
     public String comprobarDatos(){
         if(this.email==null || this.contrasenia==null || this.contraseniaRepetida==null ) return "Completa todos los campos";
