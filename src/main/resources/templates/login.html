@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-          <form th:action="@{/comprobarusuario}" th:object="${usuario}" method="get">
+          <form th:action="@{/login}" th:object="${usuario}" method="post">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">E-mail / nick</label>
               <input type="email" th:field="*{email}" class="form-control" aria-describedby="emailHelp">
