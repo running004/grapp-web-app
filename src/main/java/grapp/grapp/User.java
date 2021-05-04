@@ -99,7 +99,7 @@ public class User
     public String insertUser(String email, String contrasenia, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO USUARIOS VALUES ("+ email + ", " + hashContrasenia(contrasenia) +")");
+            stmt.executeUpdate("INSERT INTO USUARIOS VALUES ('"+ email + "', '" + hashContrasenia(contrasenia) +"')");
             return "Usuario insertado correctamente";
         } catch(Exception e){
             return "Fallo al insertar usuario, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres";
@@ -111,7 +111,9 @@ public class User
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE email='"+email+"' AND contrasenia='"+contrasenia+"' ");
-            if(rs.next()) logueado = true;
+            if(rs.next()){
+                if(rs.getInt(1) != 0)logueado = true;
+            } 
         } catch(Exception e){
             System.out.println("Fallo al loguearse, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres");
         }
@@ -124,7 +126,9 @@ public class User
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE email='"+email+"' ");
-            if(rs.next()) existe = true;
+            if(rs.next()){
+                if(rs.getInt(1) != 0)existe = true;
+            } 
         } catch(Exception e){
             System.out.println("Usuario ya existente");
         }

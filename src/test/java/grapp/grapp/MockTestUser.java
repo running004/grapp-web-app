@@ -44,7 +44,7 @@ public class MockTestUser {
         when(usuario.getEmail()).thenReturn("");
 		when(usuario.getContrasenia()).thenReturn("");
 		when(usuario.getContraseniaRepetida()).thenReturn("");
-		when(usuario.comprobarDatos()).thenReturn(false);
+		when(usuario.comprobarDatos()).thenReturn(null);
 		when(usuario.validarMail()).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/signup").flashAttr("usuario", usuario))
