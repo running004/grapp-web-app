@@ -81,22 +81,24 @@ public class appController implements ErrorController{
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String crearUsuario(User usuario,Model model) {
-        
-        if(usuario.comprobarDatos()!=null){
-            model.addAttribute("errorDatos", usuario.comprobarDatos());
-        return "signup.html";
+        model.addAttribute("usuario", new User());
+        String comprobacion = usuario.comprobarDatos();
+        if(comprobacion !=null){
+            model.addAttribute("errmessg", comprobacion);
+            return "signup.html";
         }
         Boolean existe=usuario.searchUserForSignUp(dataSource);
         if(existe){
             //mandar error al html de user ya creado
-		model.addAttribute("yaCreado", existe);
+            model.addAttribute("errmessg", "Usuario ya existente");
             return "signup.html";
         }
         else{
+            model.addAttribute("yaCreado", false);
+            model.addAttribute("errorDatos", false);
             usuario.insertUser(dataSource);
         }
         usuarioLoggeado = true;
-        model.addAttribute("usuario", new User());
         botonLog(model);
         return "login.html";
     }

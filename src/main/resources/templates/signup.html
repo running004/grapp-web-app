@@ -26,8 +26,8 @@
             <label for="exampleInputEmail1" class="form-label">E-mail</label>
             <input th:field="*{email}" type="email" class="form-control" aria-describedby="emailHelp" >
           </div>
-          <ul th:if="${emailMal == true}">
-
+          <ul th:if="${errmessg != null}">
+            <p style="color: red;" th:text = "${errmessg}"></p>
           </ul>
         </ul>
           <div class="mb-3">
@@ -37,16 +37,10 @@
               Su contraseña debe tener entre 8 y 15 caracteres, contener letras y números, y no debe contener espacios, caracteres especiales ni emojis.
             </div> 
           </div>
-          <ul th:if="${contraseniaMal == true}">
-
-          </ul>
           <div class="mb-3">
             <label for="exampleInputPassword2" class="form-label">Repetir Contraseña</label>
             <input th:field="*{contraseniaRepetida}" type="password" class="form-control" >
           </div>
-          <ul th:if="${contraseniaRMal == true}">
-
-          </ul>
           <br>
           <br>
           <div class="d-grid gap-2 col-6 mx-auto">
