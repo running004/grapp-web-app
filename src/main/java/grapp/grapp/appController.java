@@ -74,7 +74,12 @@ public class appController implements ErrorController{
         botonLog(model,request);
         return "searchPrenda";
     }
-
+    
+    @GetMapping(value="/upload")
+    String upload(Model model,@Valid formulario formulario, HttpServletRequest request){        
+        botonLog(model,request);
+        return "upload.html";
+    }
     @GetMapping(value="/signup")
     String signup(Model model, HttpServletRequest request){ 
         User usuario = new User();
