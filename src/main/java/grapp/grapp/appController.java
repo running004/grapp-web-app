@@ -77,8 +77,32 @@ public class appController implements ErrorController{
     
     @GetMapping(value="/upload")
     String upload(Model model,@Valid formulario formulario, HttpServletRequest request){        
+        Prenda prenda =new Prenda();
+        model.addAttribute("prenda",prenda);
         botonLog(model,request);
         return "upload.html";
+    }
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String crearPrenda(Prenda prenda,Model model, HttpServletRequest request) {
+        model.addAttribute("prenda", new Prenda());
+        String comprobacion = prenda.comprobarDatos();
+        if(comprobacion !=null){
+            model.addAttribute("errmessg", comprobacion);
+            return " ";
+        }
+        Boolean existe=prenda.searchPrendaPorNombre(dataSource);
+        if(existe){
+            //mandar error al html de user ya creado
+            model.addAttribute("errmessg", "Prenda con el mismo nombre");
+            return " ";
+        }
+        else{
+            model.addAttribute("yaCreado", false);
+            model.addAttribute("errorDatos", false);
+            prenda.insertPrenda(dataSource);
+        }
+        botonLog(model,request);
+        return " ";
     }
     @GetMapping(value="/signup")
     String signup(Model model, HttpServletRequest request){ 

@@ -43,10 +43,10 @@ public class Prenda
         this.descripcion = descripcion;
     }
     
-public boolean comprobarDatos(){
-    if(this.nombre.length()>50) return false; // falta poner que no haya caracteres raros
-    if(this.descripcion.length()> 280) return false;
-    return true;
+public String comprobarDatos(){
+    if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
+    if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
+    return null;
 }
     
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
