@@ -43,10 +43,10 @@ public class Prenda
         this.descripcion = descripcion;
     }
     
-public boolean comprobarDatos(){
-    if(this.nombre.length()>50) return false; // falta poner que no haya caracteres raros
-    if(this.descripcion.length()> 280) return false;
-    return true;
+public String comprobarDatos(){
+    if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
+    if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
+    return null;
 }
     
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
@@ -58,30 +58,17 @@ public boolean comprobarDatos(){
             return "Fallo al insertar prenda, recuerde que debe ser un nombre y descripcion válida";
         }
 
-    }/*
-    public boolean searchUser(String emailUser, String foto, DataSource dataSource){
-        boolean logueado = false;
-        try (Connection c = dataSource.getConnection()) {
-            Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' AND foto='"+foto+"' ");
-            if(rs.next()) logueado = true;
-        } catch(Exception e){
-            System.out.println("Fallo al loguearse, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres");
-        }
-        return logueado;
     }
-
     
-    public boolean searchUserForSingUp(String emailUser, DataSource dataSource){
+    public boolean searchPrendaPorNombre(String nombre, DataSource dataSource){
         boolean existe = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"' ");
             if(rs.next()) existe = true;
         } catch(Exception e){
-            System.out.println("Usuario ya existente");
+            System.out.println("Prenda con el mismo nombre");
         }
         return existe;
     }
-    */
 }
