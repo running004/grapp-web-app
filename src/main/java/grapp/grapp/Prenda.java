@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Prenda
 {
@@ -45,9 +47,13 @@ public class Prenda
     
 public String comprobarDatos(){
     if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
+    Pattern pattern = Pattern.compile("[A-Za-z0-9()]");
+    Matcher mather = pattern.matcher(this.nombre);
+    if(!mather.find()) return "El nombre contiene caracteres invalido, deben ser [A-Za-z0-9()]";
     if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
     return null;
 }
+
     
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {
