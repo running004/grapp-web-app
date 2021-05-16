@@ -16,9 +16,19 @@ public class BusquedaPrenda
     public BusquedaPrenda(){
         miLista = new ArrayList<Prenda>();
     }
-    public Boolean BuscarPorNombre(String nombre){
-
-         return true;
+    public Boolean BuscarPorNombre(String nombre, DataSource dataSource){
+        boolean existe = false;
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+" ");
+            if(rs.next()){
+                if(rs.getInt(1) != 0)
+                    existe = true;
+            } 
+        } catch(Exception e){
+            System.out.println("Fallo al buscar la prenda por nombre");
+        }
+        return existe;
     }
     
     public Boolean BuscarPorUsuario(String nombre){
