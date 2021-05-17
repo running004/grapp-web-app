@@ -91,7 +91,7 @@ public class appController implements ErrorController{
             model.addAttribute("errmessg", comprobacion);
             return " ";
         }
-        Boolean existe=prenda.searchPrendaPorNombre(dataSource);
+        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(), dataSource);
         if(existe){
             //mandar error al html de user ya creado
             model.addAttribute("errmessg", "Prenda con el mismo nombre");

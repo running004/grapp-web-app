@@ -21,9 +21,11 @@ public class BusquedaPrenda
          return true;
     }
     
-    public Boolean BuscarPorUsuario(String nombre){
-
-        return true;
+    public String BuscarPorUsuario(String nombre,DataSource dataSource){ // cambiarlo a strings
+       if(validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
+       if(rellenarPorNombre(nombre,dataSource)) return "El usuario no tiene subida ninguna prenda";
+       // buscar en la tabla de prendas por ese usario y rellenar la lista
+        return "";
     }
     
     public Boolean BuscarMiArmarioTodo(String nombre){
@@ -35,30 +37,34 @@ public class BusquedaPrenda
 
         return true;
     }
-    /*
-    public String insertUser(String emailUser, String foto, DataSource dataSource){
-        try (Connection c = dataSource.getConnection()) {
-            Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO USUARIOS VALUES ("+ emailUser + ", " + hashfoto(foto) +")");
-            return "Usuario insertado correctamente";
-        } catch(Exception e){
-            return "Fallo al insertar usuario, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres";
-        }
-
-    }
-    public boolean searchUser(String emailUser, String foto, DataSource dataSource){
-        boolean logueado = false;
-        try (Connection c = dataSource.getConnection()) {
-            Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' AND foto='"+foto+"' ");
-            if(rs.next()) logueado = true;
-        } catch(Exception e){
-            System.out.println("Fallo al loguearse, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres");
-        }
-        return logueado;
-    }
-
     
+    public boolean validarExisteUsuario(String emailUser, DataSource dataSource){
+        boolean encontrado = false;
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
+            if(rs.next()) encontrado = true;
+        } catch(Exception e){
+            System.out.println("No existe este usuario.");
+        }
+        return encontrado;
+    }
+    public boolean rellenarPorNombre(String emailUser, DataSource dataSource){
+        boolean encontrado = false;
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE emailUser='"+emailUser+"' ");
+            if(rs.next()) encontrado = true;
+            
+            //rellenar la lista que no seeeee wiiiiii
+
+        } catch(Exception e){
+            System.out.println("No existe este usuario.");
+        }
+        return encontrado;
+    }
+
+    /*
     public boolean searchUserForSingUp(String emailUser, DataSource dataSource){
         boolean existe = false;
         try (Connection c = dataSource.getConnection()) {
