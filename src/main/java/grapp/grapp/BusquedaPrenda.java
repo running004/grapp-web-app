@@ -24,6 +24,7 @@ public class BusquedaPrenda
          return "";
      }
      public String BuscarPorNombre(String nombre,DataSource dataSource){ // cambiarlo a strings
+        if(validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
         if(rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
          return "";
@@ -87,5 +88,9 @@ public class BusquedaPrenda
             System.out.println("Fallo al buscar la prenda por nombre");
         }
         return encontrado;
+    }
+
+    public Boolean validarNombrePrenda(String nombre, DataSource dataSource){
+        return nombre.matches("[a-zA-Z]*");
     }
 }
