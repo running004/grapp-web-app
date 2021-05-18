@@ -46,6 +46,8 @@ public class imgUrlScraper {
 
     public static String uploadImg(MultipartFile img) {
         try {
+            double size = img.getSize() * 0.00000095367432;//Para que de en MB
+            if(size >= 5){return errorMsg;}
             Map<String, String> headers = new HashMap<>();
             headers.put("Authorization", "Client-ID " + clientId);
             Map<String, Object> fields = new HashMap<>();
