@@ -18,13 +18,12 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql("/test-myjdbc.sql")
 public class SignupTest {
 
-	
+	private DataSource dataS = Connect.getConnect().getDataSource();
     
 
     @Test
     @Order(1)
     public void usuarioValido() throws SQLException{
-        DataSource dataS = Connect.getConnect().getDataSource();
         User usuarioValido = new User("elmillor@payaso.es", "12345678", "12345678");
         assertEquals(null, usuarioValido.comprobarDatos());
         assertEquals(false, usuarioValido.searchUser(dataS));

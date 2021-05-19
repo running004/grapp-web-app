@@ -16,16 +16,18 @@ public class Connect {
 
     private static Connect conexion;
 
-    public Connect() throws SQLException{
+    public Connect() {
+      try{
         dataSource();
+      } catch(SQLException e){ System.out.println(e.getMessage());}
     }
 
-    public static Connect getConnect() throws SQLException{
+    public static Connect getConnect(){
         if(conexion == null) return new Connect();
         else return conexion;
     }
 
-    public DataSource getDataSource() throws SQLException{
+    public DataSource getDataSource() {
         return dataSource;
     }
 
