@@ -13,18 +13,42 @@ import java.util.List;
 public class BusquedaPrenda
 {
     private List<Prenda> miLista ;
-    public BusquedaPrenda(){
+    private String nombre, usuario;
+    public BusquedaPrenda(){}
+    public BusquedaPrenda(String nombre, String usuario){
         miLista = new ArrayList<Prenda>();
+        this.nombre=nombre;
+        this.usuario=usuario;
+
     }
-    
+    public List<Prenda> getLista(){
+        return this.miLista;
+    }
+    public String getNombre(){
+        return nombre;
+    }
+    public String getUsuario(){
+        return usuario;
+    }
+    public void setNombre(String nombre){
+        this.nombre=nombre;
+    }
+    public void setUsuario(String usuario){
+        this.usuario=usuario;
+    }
     public String BuscarPorUsuario(String nombre,DataSource dataSource){ // cambiarlo a strings
         if(validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
         if(rellenarPorUsuario(nombre,dataSource)) return "El usuario no tiene subida ninguna prenda";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
-         return "";
+         return null;
      }
      public String BuscarPorNombre(String nombre,DataSource dataSource){ // cambiarlo a strings
         if(rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
+        // buscar en la tabla de prendas por ese usario y rellenar la lista
+         return "";
+     }
+     public String BuscarPorNombreyUsuario(String nombre,String emailUser, DataSource dataSource){ // cambiarlo a strings
+        if(rellenarPorNombreyUsuario(nombre,emailUser,dataSource)) return "El nombre y/o el usuario no existe";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
          return "";
      }
@@ -73,7 +97,7 @@ public class BusquedaPrenda
         }
         return encontrado;
     }
-    public Boolean BuscarMiArmarioPorNombre(String nombre,String emailUser, DataSource dataSource){
+    public Boolean rellenarPorNombreyUsuario(String nombre,String emailUser, DataSource dataSource){
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
