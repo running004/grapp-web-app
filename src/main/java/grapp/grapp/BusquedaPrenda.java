@@ -70,7 +70,7 @@ public class BusquedaPrenda
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE emailUser='"+emailUser+"' ");
                  while(rs.next()){
-                    Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("emailUser") ,rs.getString("foto") ,rs.getString("descripcion"));
+                    Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                     miLista.add(aux);
                     encontrado = true;
             }
@@ -89,7 +89,7 @@ public class BusquedaPrenda
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+" ");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("emailUser") ,rs.getString("foto") ,rs.getString("descripcion"));
+                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                 miLista.add(aux);
                 encontrado = true;
         }
@@ -104,7 +104,7 @@ public class BusquedaPrenda
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+"' AND emailUser='"+emailUser+"' ");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("emailUser") ,rs.getString("foto") ,rs.getString("descripcion"));
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                 miLista.add(aux);
                 encontrado = true;
         }
