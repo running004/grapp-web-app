@@ -71,4 +71,20 @@ public String comprobarDatos(){
         }
         return existe;
     }
+
+
+    public boolean searchUserForSignUp(String email, DataSource dataSource){
+        boolean existe = false;
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE email='"+email+"' ");
+            if(rs.next()){
+                existe = true;
+            } 
+        } catch(Exception e){
+            System.out.println("Usuario no existente");
+        }
+        return existe;
+    }
+
 }
