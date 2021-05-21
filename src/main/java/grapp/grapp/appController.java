@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class appController implements ErrorController{
     Boolean usuarioLoggeado = false;
-   
+    Boolean buscado = false;
     //Para en el header no mostrar el boton de login cuando el usuario haya iniciado sesion
     void botonLog(Model model, HttpServletRequest request){   
         Boolean usuarioLoggeado = request.getSession().getAttribute("email")==null?false:true;
@@ -113,37 +113,42 @@ public class appController implements ErrorController{
         return "index.html";
     }
     @RequestMapping(value = "/index", method = RequestMethod.POST)
-    String BuscarPrenda(String nombre, String emailUser, Model model, HttpServletRequest request){ 
-        BusquedaPrenda busqueda= new BusquedaPrenda(); 
-        if(nombre!=null && emailUser!=null){ // busqueda por nombre y usuario
-           if( busqueda.BuscarPorNombreyUsuario(nombre, emailUser, dataSource)==null){
+    String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
+        if(buscado==true){
+        if(busqueda.getNombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+           if( busqueda.BuscarPorNombreyUsuario(busqueda.getNombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getLista();
             model.addAttribute("miLista", miLista);
            }
            else{
-            model.addAttribute("error", busqueda.BuscarPorNombre(nombre, dataSource));
+            model.addAttribute("error", busqueda.BuscarPorNombre(busqueda.getNombre(), dataSource));
            }
         }
-        else if(nombre!=null){ //busqueda por nombre
-            if( busqueda.BuscarPorNombre(nombre, dataSource)==null){
+        else if(busqueda.getNombre()!=null){ //busqueda por nombre
+            if( busqueda.BuscarPorNombre(busqueda.getNombre(), dataSource)==null){
                 List miLista=busqueda.getLista();
                 model.addAttribute("miLista", miLista);
                }
                else{
-                model.addAttribute("error", busqueda.BuscarPorNombre(nombre, dataSource));
+                model.addAttribute("error", busqueda.BuscarPorNombre(busqueda.getNombre(), dataSource));
                }
         }
         else{ // busqueda por usuario
-            if( busqueda.BuscarPorUsuario(emailUser, dataSource)==null){
+            if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
                 List miLista=busqueda.getLista();
                 model.addAttribute("miLista", miLista);
                }
                else{
-                model.addAttribute("error", busqueda.BuscarPorNombre(nombre, dataSource));
+                model.addAttribute("error", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
                }
         }
-        botonLog(model,request);     
-        return "signup.html";
+    }
+    else{ 
+        busqueda.todo(dataSource);
+        model.addAttribute("miLista",busqueda.getLista());
+    }
+    botonLog(model,request);     
+    return "signup.html";
     }
 
     @GetMapping(value="/signup")
