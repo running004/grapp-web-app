@@ -1,21 +1,14 @@
 package grapp.grapp;
 
-import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 @Sql("/test-myjdbc.sql")
