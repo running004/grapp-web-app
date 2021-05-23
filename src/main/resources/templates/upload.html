@@ -22,12 +22,11 @@
         <div class="col-4"></div>
       </div>
       <br><br>
-      <form action="/upload" method="POST" th:object="${formulario}" enctype='multipart/form-data'>
-          
+      <form th:action="@{/upload}" th:object="${prenda}" method="POST">
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4">
-            <input th:field="*{text}" type="text" class="form-control" placeholder="Nombre" aria-label="First name">
+            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Nombre" aria-label="First name">
           </div>
           <div class="col-4"></div>
         </div>
@@ -35,7 +34,7 @@
           <div class="col-4"></div>
           <div class="col-4">
             <label for="exampleFormControlTextarea1" class="form-label" ></label>
-            <textarea class="form-control" placeholder="Descripción (280 caracteres como máximo)" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea th:field="*{descripcion}" class="form-control" placeholder="Descripción (280 caracteres como máximo)" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
           <div class="col-4"></div>
         </div>
@@ -43,7 +42,7 @@
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4">
-            <input th:field="*{img}" type="file" class="form-control" id="inputGroupFile02">
+            <input th:field="*{foto}" type="file" class="form-control" id="inputGroupFile02">
           </div>
           <div class="col-4"></div>
         </div>
