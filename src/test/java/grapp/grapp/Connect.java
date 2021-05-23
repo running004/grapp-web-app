@@ -10,7 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class Connect {
     
     
-    private static String dbUrl = "jdbc:postgresql://ec2-63-32-7-190.eu-west-1.compute.amazonaws.com/daefi82lnqtrnl?user=udonuqdciohkgo&password:77997687eceee1a5bb4f89c886bb08bd4876a2f5b1468a1c0276e1b6930cd085&ssl=false";
+    private static String dbUrl = "jdbc:postgresql://ec2-63-32-7-190.eu-west-1.compute.amazonaws.com/daefi82lnqtrnl?user=udonuqdciohkgo&password=77997687eceee1a5bb4f89c886bb08bd4876a2f5b1468a1c0276e1b6930cd085&ssl=false";
   
     private static DataSource dataSource;
 
