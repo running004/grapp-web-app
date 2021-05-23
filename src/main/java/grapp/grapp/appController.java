@@ -49,26 +49,17 @@ public class appController implements ErrorController{
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping(value= "/")
-    String index2(Model model, HttpServletRequest request){
+    @GetMapping(value="/")
+    String index(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
-        model.addAttribute("key", "prueba");
-        List<String> listado = new ArrayList<String>();
-        listado.add("Pagina principal: vuelve a la página principal");
-        listado.add("Subir fotos: te permite subir una foto devolviendo un id");
-        listado.add("Ver fotos: te permite ver las fotos subidas mediante id");
-        model.addAttribute("features", listado);
+        buscado=false;
         botonLog(model,request);
-        return "index.html";
-    }
-    @RequestMapping(value= "/index")
-	public String index(Model model, HttpServletRequest request) {
-		BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
 		model.addAttribute("busqueda", busqueda);
-        botonLog(model,request);  
         return "index.html";
     }
-    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         model.addAttribute("busqueda", new BusquedaPrenda());
         if(buscado==true){

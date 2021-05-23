@@ -22,6 +22,9 @@
         <div class="col-4"></div>
       </div>
       <br><br>
+      <ul th:if="${errmessg != null}">
+        <p style="color: red;" th:text = "${errmessg}"></p>
+      </ul>
       <form th:action="@{/upload}" th:object="${prenda}" method="POST">
         <div class="row">
           <div class="col-4"></div>

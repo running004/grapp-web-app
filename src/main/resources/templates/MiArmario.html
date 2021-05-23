@@ -16,6 +16,9 @@
     <div class="container espacio2">
         <h1>Mi Armario</h1>
         <br><br>
+        <ul th:if="${errmessg != null}">
+            <p style="color: red;" th:text = "${errmessg}"></p>
+          </ul>
         <ul th:if="${usuarioLogin == true}">
         
       <form th:action="@{/MiArmario}" th:object="${busqueda}" method="POST">
