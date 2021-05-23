@@ -23,22 +23,7 @@
       </div>
       <br><br>
       <form action="/upload" method="POST" th:object="${formulario}" enctype='multipart/form-data'>
-        <div class="row">
-          <div class="col-4"></div>
-          <div class="col-4">
-            <label for="user" class="form-label">Usuario</label>
-            <input type="email" class="form-control" id="user" placeholder="nombreDelUsuario" disabled>
-          </div>
-          <div class="col-4"></div>
-        </div>
-        <br>   
-        <div class="row">
-          <div class="col-4"></div>
-          <div class="col-4">
-            <p class="text-center text-italic">Sobre la prenda</p>
-          </div>
-          <div class="col-4"></div>
-        </div>   
+          
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4">
@@ -72,18 +57,7 @@
         </div>
       </form>
 
-      <div class="formResult">
-        <hr>
-        <p>Aqui abajo se generará tu id</p>
-        <p style="color:aqua" th:text="${id}">Ok</p>
-        <p>Subiste esta imagen</p>
-        <img th:src="${imgUrl}"/>
-        <p>A este usuario</p>
-        <p style="color:darkcyan" th:text="${userID}">Ok</p>
-        <p style="color: red;" th:text="${excepcion}">OK</p>
-      </div>
-      <p th:text="${exito}">exito</p>
-    </div>
+  
 
     <footer th:insert="fragments/footer.html"></footer>
 </body>
