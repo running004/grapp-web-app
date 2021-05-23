@@ -11,12 +11,11 @@
     <header th:insert="fragments/header.html"> </header>
     <div class ="container espacio">
       </nav>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <span class="badge rounded-pill bg-light text-dark">Filtro 1</span>
-        <span class="badge rounded-pill bg-light text-dark">Filtro 2</span>
-        <span class="badge rounded-pill bg-light text-dark">Filtro 3</span>
-      </div>
-
+      <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Nombre prenda" aria-label="Search">
+            <input class="form-control me-2" type="search" placeholder="Nombre usuario" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">BUSCAR</button>
+          </form>
     <div class="row row-cols-1 row-cols-md-3 g-4 pt-5">
         <div class="col">
           <div class="card h-100">
