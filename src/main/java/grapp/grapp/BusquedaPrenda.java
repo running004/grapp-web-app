@@ -60,7 +60,7 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM USUARIOS WHERE email='"+emailUser+"' ");
             if(rs.next()) encontrado = true;
         } catch(Exception e){
             System.out.println("No existe este usuario.");
@@ -71,9 +71,9 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE propietario='"+emailUser+"' ");
                  while(rs.next()){
-                    Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                    Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("imgurl") ,rs.getString("descripcion"),rs.getString("propietario"));
                     miLista.add(aux);
                     encontrado = true;
             }
@@ -90,9 +90,9 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre="+nombre+" ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre='"+nombre+"''");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("imgurl") ,rs.getString("descripcion"),rs.getString("propietario"));
                 miLista.add(aux);
                 encontrado = true;
         }
@@ -105,9 +105,9 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre="+nombre+"' AND emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre='"+nombre+"' AND propietario='"+emailUser+"' ");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("imgurl") ,rs.getString("descripcion"),rs.getString("propietario"));
                 miLista.add(aux);
                 encontrado = true;
         }
@@ -121,7 +121,7 @@ public class BusquedaPrenda
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("imgurl") ,rs.getString("descripcion"),rs.getString("propietario"));
                 miLista.add(aux);
         }
         } catch(Exception e){

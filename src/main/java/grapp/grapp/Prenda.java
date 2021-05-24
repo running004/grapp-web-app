@@ -58,7 +58,7 @@ public String comprobarDatos(){
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO PRENDAS VALUES ("+ emailUser + ", " + usuario+", "+ descripcion+ ", " + foto+")");
+            stmt.executeUpdate("INSERT INTO PRENDAS VALUES ('"+ nombre+ "', '" + foto +"', '" + descripcion +"', '" + usuario +"')");
             return "Prenda insertada correctamente";
         } catch(Exception e){
             return "Fallo al insertar prenda, recuerde que debe ser un nombre y descripcion válida";
