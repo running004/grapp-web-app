@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class appController implements ErrorController{
     Boolean usuarioLoggeado = false;
-   
+    Boolean buscado=true;
     //Para en el header no mostrar el boton de login cuando el usuario haya iniciado sesion
-    void botonLog(Model model, HttpServletRequest request){   
+    void botonLog(Model model, HttpServletRequest request){
         Boolean usuarioLoggeado = request.getSession().getAttribute("email")==null?false:true;
         model.addAttribute("usuarioLogin",usuarioLoggeado);
         model.addAttribute("username", request.getSession().getAttribute("email"));
@@ -49,32 +49,90 @@ public class appController implements ErrorController{
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping(value= "/")
-    String index(Model model, HttpServletRequest request){
+    @GetMapping(value="/")
+    String index(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
-        model.addAttribute("key", "prueba");
-        List<String> listado = new ArrayList<String>();
-        listado.add("Pagina principal: vuelve a la página principal");
-        listado.add("Subir fotos: te permite subir una foto devolviendo un id");
-        listado.add("Ver fotos: te permite ver las fotos subidas mediante id");
-        model.addAttribute("features", listado);
+        buscado=false;
         botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "index.html";
     }
-
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
+        model.addAttribute("busqueda", new BusquedaPrenda());
+        if(buscado==true){
+        if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+           if( busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{
+            model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+           }
+        }
+        else if(busqueda.getnombre()!=null){ //busqueda por nombre
+            if( busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource)==null){
+                List miLista=busqueda.getmiLista();
+                model.addAttribute("miLista", miLista);
+               }
+               else{
+                model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+               }
+        }
+        else{ // busqueda por usuario
+            if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+                List miLista=busqueda.getmiLista();
+                model.addAttribute("miLista", miLista);
+               }
+               else{
+                model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
+               }
+        }
+    }
+    else{ 
+        busqueda.todo(dataSource);
+        model.addAttribute("miLista",busqueda.getmiLista());
+    }
+    botonLog(model,request);     
+    return "index.html";
+    }
     @GetMapping(value="/MiArmario")
     String MiArmario(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
         botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "MiArmario.html";
     }
-
-    @GetMapping(value="/searchPrenda")
-    String searchPrenda(Model model,@Valid formulario formulario, HttpServletRequest request){        
-        botonLog(model,request);
-        return "searchPrenda";
+    @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
+    String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
+        busqueda.setemailUser((String) request.getSession().getAttribute("email"));
+        if(buscado==true){
+        if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+           if( busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{
+            model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+           }
+        }
     }
-    
+    else{ 
+        if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{   // poner el user de la sesion
+            model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
+           }
+    }
+    botonLog(model,request);     
+    return "MiArmario.html";
+    }
     @GetMapping(value="/upload")
     String upload(Model model,@Valid formulario formulario, HttpServletRequest request){        
         Prenda prenda =new Prenda();
@@ -86,16 +144,16 @@ public class appController implements ErrorController{
     public String crearPrenda(Prenda prenda,Model model, HttpServletRequest request) {
         model.addAttribute("prenda", new Prenda());
         String comprobacion = prenda.comprobarDatos();
-        //prenda.setemailUser(request.getSession().getAttribute("email"));
+        prenda.setemailUser((String) request.getSession().getAttribute("email"));
         if(comprobacion !=null){
             model.addAttribute("errmessg", comprobacion);
-            return " ";
+            return "upload.html";
         }
-        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(), dataSource);
+        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(),dataSource);
         if(existe){
             //mandar error al html de user ya creado
             model.addAttribute("errmessg", "Prenda con el mismo nombre");
-            return " ";
+            return "upload.html ";
         }
         else{
             model.addAttribute("yaCreado", false);
@@ -103,7 +161,7 @@ public class appController implements ErrorController{
             String insertar=prenda.insertPrenda(prenda.getnombre(),prenda.getemailUser(),prenda.getdescripcion(),prenda.getfoto(),dataSource);
         }
         botonLog(model,request);
-        return " ";
+        return "MiArmario.html ";
     }
     
     @RequestMapping(value= "/index", method = RequestMethod.GET)

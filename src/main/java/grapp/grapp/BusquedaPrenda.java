@@ -13,28 +13,31 @@ import java.util.List;
 public class BusquedaPrenda
 {
     private List<Prenda> miLista ;
-    private String nombre, usuario;
+    private String nombre, emailUser;
     public BusquedaPrenda(){}
-    public BusquedaPrenda(String nombre, String usuario){
+    public BusquedaPrenda(String nombre, String emailUser){
         miLista = new ArrayList<Prenda>();
         this.nombre=nombre;
-        this.usuario=usuario;
+        this.emailUser=emailUser;
 
     }
-    public List<Prenda> getLista(){
+    public List<Prenda> getmiLista(){
         return this.miLista;
     }
-    public String getNombre(){
+    public String getnombre(){
         return nombre;
     }
-    public String getUsuario(){
-        return usuario;
+    public String getemailUser(){
+        return emailUser;
     }
-    public void setNombre(String nombre){
+    public void setmiLista(List<Prenda> miLista){
+        this.miLista=miLista;
+    }
+    public void setnombre(String nombre){
         this.nombre=nombre;
     }
-    public void setUsuario(String usuario){
-        this.usuario=usuario;
+    public void setemailUser(String emailUser){
+        this.emailUser=emailUser;
     }
     public String BuscarPorUsuario(String nombre,DataSource dataSource){ // cambiarlo a strings
         if(validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
@@ -43,8 +46,8 @@ public class BusquedaPrenda
          return null;
      }
      public String BuscarPorNombre(String nombre,DataSource dataSource){ // cambiarlo a strings
-        if(!validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
-        if(!rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
+        if(validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
+        if(rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
          return "";
      }
@@ -57,7 +60,7 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
             if(rs.next()) encontrado = true;
         } catch(Exception e){
             System.out.println("No existe este usuario.");
@@ -68,7 +71,7 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE emailUser='"+emailUser+"' ");
                  while(rs.next()){
                     Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                     miLista.add(aux);
@@ -87,7 +90,7 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+" ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre="+nombre+" ");
             while(rs.next()){
                 Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                 miLista.add(aux);
@@ -102,7 +105,7 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+"' AND emailUser='"+emailUser+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT FROM PRENDAS WHERE nombre="+nombre+"' AND emailUser='"+emailUser+"' ");
             while(rs.next()){
                 Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
                 miLista.add(aux);
@@ -113,7 +116,18 @@ public class BusquedaPrenda
         }
         return encontrado;
     }
+    public void todo(DataSource dataSource){
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS");
+            while(rs.next()){
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                miLista.add(aux);
+        }
+        } catch(Exception e){
 
+        }
+    }
     public Boolean validarNombrePrenda(String nombre, DataSource dataSource){
         return nombre.matches("[a-zA-Z]*");
     }

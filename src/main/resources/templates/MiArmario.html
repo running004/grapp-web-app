@@ -16,15 +16,23 @@
     <div class="container espacio2">
         <h1>Mi Armario</h1>
         <br><br>
+        <ul th:if="${errmessg != null}">
+            <p style="color: red;" th:text = "${errmessg}"></p>
+          </ul>
         <ul th:if="${usuarioLogin == true}">
+        
+      <form th:action="@{/MiArmario}" th:object="${busqueda}" method="POST">
+        <form class="d-flex">
         <a class="btn btn-danger btn-lg" th:href="@{upload}" role="button">Añadir</a>
         <br><br>
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </nav>
+            <input th:field="*{nombre}" class="form-control me-2" type="search" placeholder="Buscar prenda en mi armario" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+       </form>
+
         </ul>
          <ul th:if="${usuarioLogin == false}">
-        <a class="btn btn-danger btn-lg" th:href="@{login}" role="button">Añadir</a>
+        <a class="btn btn-primary btn-lg" th:href="@{login}" role="button">Logeate</a>
          </ul>
     </div>
 
