@@ -67,7 +67,7 @@ public class appController implements ErrorController{
         model.addAttribute("busqueda", new BusquedaPrenda());
         if(buscado==true){
         if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
-           if( busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+           if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
            }

@@ -40,21 +40,21 @@ public class BusquedaPrenda
         this.emailUser=emailUser;
     }
     public String BuscarPorUsuario(String nombre,DataSource dataSource){ // cambiarlo a strings
-        if(validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
-        if(rellenarPorUsuario(nombre,dataSource)) return "El usuario no tiene subida ninguna prenda";
+        if(!validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
+        if(!rellenarPorUsuario(nombre,dataSource)) return "El usuario no tiene subida ninguna prenda";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
          return null;
      }
      public String BuscarPorNombre(String nombre,DataSource dataSource){ // cambiarlo a strings
-        if(validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
-        if(rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
+        if(!validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
+        if(!rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
          return "";
      }
      public String BuscarPorNombreyUsuario(String nombre,String emailUser, DataSource dataSource){ // cambiarlo a strings
-        if(rellenarPorNombreyUsuario(nombre,emailUser,dataSource)) return "El nombre y/o el usuario no existe";
+        if(!rellenarPorNombreyUsuario(nombre,emailUser,dataSource)) return "El nombre y/o el usuario no existe";
         // buscar en la tabla de prendas por ese usario y rellenar la lista
-         return "";
+         return null;
      }
      public boolean validarExisteUsuario(String emailUser, DataSource dataSource){
         boolean encontrado = false;
