@@ -198,6 +198,9 @@ public class appController implements ErrorController{
 	public String crearFormularioUsuario(Model model, HttpServletRequest request) {
 		User usuario = new User();
 		model.addAttribute("usuario", usuario);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "login.html";
     }
 
@@ -211,6 +214,9 @@ public class appController implements ErrorController{
             if(usuario.searchUser(dataSource)){
                 request.getSession().setAttribute("email", usuario.getEmail());
                 botonLog(model,request);
+                BusquedaPrenda busqueda= new BusquedaPrenda(); 
+                busqueda.todo(dataSource);
+                model.addAttribute("busqueda", busqueda);
                 return "index.html";
             } else {
             model.addAttribute("error", "No existe esa cuenta");
