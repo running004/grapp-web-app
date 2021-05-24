@@ -29,19 +29,6 @@ public class LogInTest{
     public void usuarioNoRegistrado(){
         User usuarioNoRegistrado = new User("loquesea@mk.es", "12345678", "12345678");
         assertNotEquals(true, usuarioNoRegistrado.searchUser(dataS));
-      
     }
-    /*@AfterAll
-    public static void borradoDatos(){
-        //borramos el usuario insertado correctamente
-        String query = "delete from usuarios where email = 'hola@cum.es'";
-        PreparedStatement preparedStmt;
-        try {
-            preparedStmt = dataS.getConnection().prepareStatement(query);
-            preparedStmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    */
+   
 }
