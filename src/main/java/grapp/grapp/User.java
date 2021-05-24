@@ -60,7 +60,7 @@ public class User
              Matcher mather = pattern.matcher(this.email);
              return mather.find();
          } else {
-             return true;
+             return false;
          }
          // end-user-code<
      }
