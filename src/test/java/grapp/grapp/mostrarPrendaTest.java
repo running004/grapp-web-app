@@ -1,11 +1,11 @@
-import org.junit.Test;
-import org.junit.runner.RunWith;
+package grapp.grapp;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import grapp.grapp.Prenda;
-
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class mostrarPrendaTest {
     
