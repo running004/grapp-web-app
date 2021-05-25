@@ -9,14 +9,24 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Order;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PrendaGR3Test {
    
-
+   private static DataSource dataS = Connect.getConnect().getDataSource();
    //---------------Test unitarios---------------
    
    @Test
+   @Order(1)
    public void ValidarAtributos(){
    
       Prenda ropa = new Prenda("Ropa valida8()","noseque@algo.com", "url ropa", "Descripcion valida");
@@ -32,4 +42,31 @@ public class PrendaGR3Test {
       assertEquals(ropa.comprobarDatos(), "La descripcion no puede tener mas de 280 caracteres."); 
         
    }
+
+      
+   @Test
+   @Order(2)
+   public void InsertarPrenda(){
+   
+      Prenda ropa = new Prenda();
+      assertEquals(ropa.insertPrenda("Ropa valida8()", "noseque@algo.com", "Descripcion valida", "ropa.jpg", dataS), "Prenda insertada correctamente");        
+     
+   }
+
+   @AfterAll
+   public void BorrarDatos(){
+
+      String query = "delete from PRENDAS where propietario = 'noseque@algo.com'";
+      PreparedStatement preparedStmt;
+      
+      try {
+          preparedStmt = dataS.getConnection().prepareStatement(query);
+          preparedStmt.execute();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+        
+     
+   }
+
 }
