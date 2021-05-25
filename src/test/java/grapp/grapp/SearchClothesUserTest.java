@@ -1,7 +1,6 @@
 package grapp.grapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.AssertTrueValidator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -72,7 +70,7 @@ public class SearchClothesUserTest {
         assertEquals("El usuario no tiene subida ninguna prenda", bp.BuscarPorUsuario( usuarioSinPrendas.getEmail(), dataS));
 
         //probamos un usuario que no existe en el metodo completo
-        assertNotEquals("Este usuario no existe", bp.BuscarPorUsuario( "noExisto", dataS));
+        assertEquals("Este usuario no existe", bp.BuscarPorUsuario( "noExisto", dataS));
         }
         
     @AfterAll
