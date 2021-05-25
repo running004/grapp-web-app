@@ -26,7 +26,7 @@ public class BusquedaPrendaTest {
      //prueba de buscar prenda por nombre
      @Test
      public void buscarPrendaValida(){
-        borrar();
+        // borrar();
         User u = new User("JuanCuesta@gmail.es", "12345678", "12345678");
         u.insertUser(data);
         //u.searchUser(data);
