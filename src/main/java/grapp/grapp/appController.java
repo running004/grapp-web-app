@@ -64,7 +64,7 @@ public class appController implements ErrorController{
     }
     @RequestMapping(value = "/", method = RequestMethod.POST)
     String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
-        model.addAttribute("busqueda", new BusquedaPrenda());
+        model.addAttribute("busqueda", new BusquedaPrenda());//
         if(busqueda.getnombre()!="" && busqueda.getemailUser()!=""){ // busqueda por nombre y usuario
            if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
@@ -84,7 +84,7 @@ public class appController implements ErrorController{
                }
         }
         else if(busqueda.getemailUser()!="" ){ // busqueda por usuario
-            if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+            if(busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
                 List miLista=busqueda.getmiLista();
                 model.addAttribute("miLista", miLista);
                }
@@ -111,7 +111,7 @@ public class appController implements ErrorController{
     @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
     String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         busqueda.setemailUser((String) request.getSession().getAttribute("email"));
-        if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+        if(busqueda.getnombre()!="" && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
            if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
@@ -148,7 +148,7 @@ public class appController implements ErrorController{
             model.addAttribute("errmessg", comprobacion);
             return "upload.html";
         }
-        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(),dataSource);
+        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(),prenda.getemailUser(), dataSource);
         if(existe){
             //mandar error al html de user ya creado
             model.addAttribute("errmessg", "Prenda con el mismo nombre");

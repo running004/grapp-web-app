@@ -66,11 +66,11 @@ public String comprobarDatos(){
 
     }
     
-    public boolean searchPrendaPorNombre(String nombre, DataSource dataSource){
+    public boolean searchPrendaPorNombre(String nombre, String emailUser, DataSource dataSource){
         boolean existe = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"'AND propietario='"+emailUser+"' ");
             if(rs.next()){
                 if(rs.getInt(1) != 0)existe = true;
             } 
