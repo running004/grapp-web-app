@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS USUARIOS(email VARCHAR(10), contraseña VARCHAR(64))
 CREATE TABLE public.prendas
 (
     nombre character varying(50) NOT NULL,
-    imgurl character varying(20),
+    imgurl character varying(100),
     descripcion character varying(280),
     propietario character varying(40) NOT NULL,
     CONSTRAINT prendas_pkey PRIMARY KEY (propietario, nombre),

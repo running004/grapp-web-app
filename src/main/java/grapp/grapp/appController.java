@@ -84,7 +84,7 @@ public class appController implements ErrorController{
                }
         }
         else if(busqueda.getemailUser()!="" ){ // busqueda por usuario
-            if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+            if(busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
                 List miLista=busqueda.getmiLista();
                 model.addAttribute("miLista", miLista);
                }
@@ -111,7 +111,7 @@ public class appController implements ErrorController{
     @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
     String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         busqueda.setemailUser((String) request.getSession().getAttribute("email"));
-        if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+        if(busqueda.getnombre()!="" && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
            if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
