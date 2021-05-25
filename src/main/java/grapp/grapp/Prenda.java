@@ -58,7 +58,7 @@ public String comprobarDatos(){
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO PRENDAS VALUES ("+ emailUser + ", " + usuario+", "+ descripcion+ ", " + foto+")");
+            stmt.executeUpdate("INSERT INTO PRENDAS VALUES ('"+ nombre+ "', '" + foto +"', '" + descripcion +"', '" + usuario +"')");
             return "Prenda insertada correctamente";
         } catch(Exception e){
             return "Fallo al insertar prenda, recuerde que debe ser un nombre y descripcion válida";
@@ -71,7 +71,9 @@ public String comprobarDatos(){
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"' ");
-            if(rs.next()) existe = true;
+            if(rs.next()){
+                if(rs.getInt(1) != 0)existe = true;
+            } 
         } catch(Exception e){
             System.out.println("Prenda con el mismo nombre");
         }

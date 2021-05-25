@@ -41,6 +41,9 @@ public class appController implements ErrorController{
         Boolean usuarioLoggeado = request.getSession().getAttribute("email")==null?false:true;
         model.addAttribute("usuarioLogin",usuarioLoggeado);
         model.addAttribute("username", request.getSession().getAttribute("email"));
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+        model.addAttribute("busqueda", busqueda);
     }
 
     @Value("${spring.datasource.url}")
@@ -62,9 +65,8 @@ public class appController implements ErrorController{
     @RequestMapping(value = "/", method = RequestMethod.POST)
     String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         model.addAttribute("busqueda", new BusquedaPrenda());
-        if(buscado==true){
-        if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
-           if( busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+        if(busqueda.getnombre()!="" && busqueda.getemailUser()!=""){ // busqueda por nombre y usuario
+           if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
            }
@@ -72,7 +74,7 @@ public class appController implements ErrorController{
             model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
            }
         }
-        else if(busqueda.getnombre()!=null){ //busqueda por nombre
+        else if(busqueda.getnombre()!="" ){ //busqueda por nombre
             if( busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource)==null){
                 List miLista=busqueda.getmiLista();
                 model.addAttribute("miLista", miLista);
@@ -81,7 +83,7 @@ public class appController implements ErrorController{
                 model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
                }
         }
-        else{ // busqueda por usuario
+        else if(busqueda.getemailUser()!="" ){ // busqueda por usuario
             if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
                 List miLista=busqueda.getmiLista();
                 model.addAttribute("miLista", miLista);
@@ -90,8 +92,7 @@ public class appController implements ErrorController{
                 model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
                }
         }
-    }
-    else{ 
+    else { 
         busqueda.todo(dataSource);
         model.addAttribute("miLista",busqueda.getmiLista());
     }
@@ -110,9 +111,8 @@ public class appController implements ErrorController{
     @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
     String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         busqueda.setemailUser((String) request.getSession().getAttribute("email"));
-        if(buscado==true){
         if(busqueda.getnombre()!=null && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
-           if( busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+           if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
            }
@@ -120,8 +120,7 @@ public class appController implements ErrorController{
             model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
            }
         }
-    }
-    else{ 
+        else{
         if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
             model.addAttribute("miLista", miLista);
@@ -129,7 +128,7 @@ public class appController implements ErrorController{
            else{   // poner el user de la sesion
             model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
            }
-    }
+        }
     botonLog(model,request);     
     return "MiArmario.html";
     }
@@ -161,6 +160,9 @@ public class appController implements ErrorController{
             String insertar=prenda.insertPrenda(prenda.getnombre(),prenda.getemailUser(),prenda.getdescripcion(),prenda.getfoto(),dataSource);
         }
         botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+        model.addAttribute("busqueda", busqueda);
         return "MiArmario.html ";
     }
     
@@ -239,6 +241,9 @@ public class appController implements ErrorController{
 	public String crearFormularioUsuario(Model model, HttpServletRequest request) {
 		User usuario = new User();
 		model.addAttribute("usuario", usuario);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "login.html";
     }
 
@@ -252,14 +257,17 @@ public class appController implements ErrorController{
             if(usuario.searchUser(dataSource)){
                 request.getSession().setAttribute("email", usuario.getEmail());
                 botonLog(model,request);
+                BusquedaPrenda busqueda= new BusquedaPrenda(); 
+                busqueda.todo(dataSource);
+                model.addAttribute("busqueda", busqueda);
                 return "index.html";
             } else {
-            model.addAttribute("error", "No existe esa cuenta");
+            model.addAttribute("errmessg", "El correo o la contraseña no coinciden.");
             model.addAttribute("usuario", new User());
             return "login.html";
             }
         }catch(Exception e){
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errmessg", e.getMessage());
             e.printStackTrace();
             model.addAttribute("usuario", new User());
             return "login.html";
