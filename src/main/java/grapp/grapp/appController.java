@@ -64,7 +64,7 @@ public class appController implements ErrorController{
     }
     @RequestMapping(value = "/", method = RequestMethod.POST)
     String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
-        model.addAttribute("busqueda", new BusquedaPrenda());
+        model.addAttribute("busqueda", new BusquedaPrenda());//
         if(busqueda.getnombre()!="" && busqueda.getemailUser()!=""){ // busqueda por nombre y usuario
            if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
             List miLista=busqueda.getmiLista();
