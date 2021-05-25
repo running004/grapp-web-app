@@ -26,13 +26,14 @@ public class BusquedaPrendaTest {
      //prueba de buscar prenda por nombre
      @Test
      public void buscarPrendaValida(){
-        User u = new User("megaJuan991@gmail.es", "12345678", "12345678");
-       /* u.insertUser(data);*/
-        u.searchUser(data);
-        Prenda prenda = new Prenda("zapatos", "megaJuan991@gmail.es", "bit.ly/3vg0cyB", "zapatosGucci");
-       /* prenda.insertPrenda(prenda.getnombre(), prenda.getemailUser(), prenda.getdescripcion(),
-             prenda.getfoto(), data);*/
-        prenda.searchPrendaPorNombre(prenda.getnombre(), data);
+        borrar();
+        User u = new User("JuanCuesta@gmail.es", "12345678", "12345678");
+        u.insertUser(data);
+        //u.searchUser(data);
+        Prenda prenda = new Prenda("zapatos", "JuanCuesta@gmail.es", "bit.ly/3vg0cyB", "zapatosGucci");
+        prenda.insertPrenda(prenda.getnombre(), prenda.getemailUser(), prenda.getdescripcion(),
+             prenda.getfoto(), data);
+        // prenda.searchPrendaPorNombre(prenda.getnombre(), data);
         BusquedaPrenda busq = new BusquedaPrenda(prenda.getnombre(), prenda.getemailUser());
         assertEquals("", busq.BuscarPorNombre(prenda.getnombre(), data));
      }
@@ -40,27 +41,34 @@ public class BusquedaPrendaTest {
      @Test
      @Order(2)
      public void buscarNoPrendaValida(){
-        Prenda prendaNoValida = new Prenda("camiseta9", "elmillor@payaso.es", "nosequeponeraqui", "fotodecamiseta");
-        Prenda userMal = new Prenda("jersey", "noexiste@ucm.es", "nosequeponeraqui", "fotodecamiseta");
-        BusquedaPrenda busq = new BusquedaPrenda();
+        Prenda prendaNoValida = new Prenda("camiseta9", "JoseCuesta@gmail.es", "bit.ly/3vg0cyB", "zapatosGucci");
+        Prenda userMal = new Prenda("alzacuellos", "JoseCuesta@gmail.es", "bit.ly/3vg0cyB", "zapatosGucci");
+        
+        BusquedaPrenda busqNoValida = new BusquedaPrenda(prendaNoValida.getnombre(), prendaNoValida.getemailUser());
+        BusquedaPrenda busqUserMal = new BusquedaPrenda(userMal.getnombre(), userMal.getemailUser());
         assertEquals("El formato del nombre de la prenda no es valido", 
-            busq.BuscarPorNombre(prendaNoValida.getnombre(), data));
+            busqNoValida.BuscarPorNombre(prendaNoValida.getnombre(), data));
         assertEquals("No existen prendas con este nombre", 
-            busq.BuscarPorNombre(userMal.getnombre(), data));
+            busqUserMal.BuscarPorNombre(userMal.getnombre(), data));
      }
 
-    /* @AfterAll
-     public static void borradoDatos(){
+    @AfterAll
+     public static void borrar(){
          //borramos el usuario insertado correctamente
-         String query = "delete from usuarios where email = 'test@test.test'";
+         String query = "delete from prendas where propietario  = 'JuanCuesta@gmail.es'";
          PreparedStatement preparedStmt;
+         // PreparedStatement preparedStmt;
          try {
              preparedStmt = data.getConnection().prepareStatement(query);
              preparedStmt.execute();
+             query = "delete from usuarios where email = 'JuanCuesta@gmail.es'";
+             preparedStmt = data.getConnection().prepareStatement(query);
+             preparedStmt.execute();
+
          } catch (SQLException e) {
              e.printStackTrace();
          }
              
-     }*/
+     }
 
 }
