@@ -83,6 +83,7 @@ public class User
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
             stmt.executeUpdate("INSERT INTO USUARIOS VALUES ('"+ this.email + "', '" + hashContrasenia(this.contrasenia) +"')");
+            c.close();
             return "Usuario insertado correctamente";
         } catch(Exception e){
             return "Fallo al insertar usuario, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres";
@@ -112,7 +113,8 @@ public class User
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE email='"+email+"' ");
             if(rs.next()){
                 if(rs.getInt(1) != 0)existe = true;
-            } 
+            }
+            c.close(); 
         } catch(Exception e){
             System.out.println("Usuario ya existente");
         }

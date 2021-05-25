@@ -62,6 +62,7 @@ public class BusquedaPrenda
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIOS WHERE email='"+emailUser+"' ");
             if(rs.next()) encontrado = true;
+            c.close();
         } catch(Exception e){
             System.out.println("No existe este usuario.");
         }
@@ -78,10 +79,12 @@ public class BusquedaPrenda
                 Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
                 miLista.add(aux);
                 encontrado = true;
+                c.close();
         }
         } catch(Exception e){
             System.out.println("Fallo al buscar la prenda por nombre");
         }
+        
         return encontrado;
     }
 
@@ -96,6 +99,7 @@ public class BusquedaPrenda
                 miLista.add(aux);
                 encontrado = true;
         }
+        c.close();
         } catch(Exception e){
             System.out.println("Fallo al buscar la prenda por nombre");
         }
@@ -112,6 +116,7 @@ public class BusquedaPrenda
                 miLista.add(aux);
                 encontrado = true;
         }
+        c.close();
         } catch(Exception e){
             System.out.println("Fallo al buscar la prenda por nombre");
         }
@@ -125,6 +130,7 @@ public class BusquedaPrenda
                 Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
                 miLista.add(aux);
         }
+        c.close();
         } catch(Exception e){
 
         }
