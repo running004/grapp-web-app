@@ -2,6 +2,9 @@ package grapp.grapp;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.sql.DataSource;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -10,8 +13,16 @@ import java.util.regex.Pattern;
 
 public class Prenda
 {
-    private String nombre, emailUser, foto, descripcion;
+    public String nombre, emailUser, foto, descripcion;
+    private MultipartFile  img;
     public Prenda(){
+    }
+    public Prenda(String nombre,String emailUser, String foto, String descripcion, MultipartFile  img) {
+        this.nombre=nombre;
+        this.emailUser = emailUser;
+        this.foto = foto;
+        this.descripcion=descripcion;
+        this.img = img;
     }
     public Prenda(String nombre,String emailUser, String foto, String descripcion) {
         this.nombre=nombre;
@@ -19,7 +30,7 @@ public class Prenda
         this.foto = foto;
         this.descripcion=descripcion;
     }
-
+    
     public String getemailUser() {
         return emailUser;
     }
@@ -31,6 +42,12 @@ public class Prenda
     }
     public String getdescripcion() {
         return descripcion;
+    }
+    public MultipartFile  getImg() {
+        return img;
+    }
+    public void setImg(MultipartFile  img) {
+        this.img = img;
     }
     public void setfoto(String foto) {
         this.foto = foto;
@@ -44,10 +61,14 @@ public class Prenda
     public void setdescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    public String toString(){
+            return foto + nombre;
+    }
+
     
 public String comprobarDatos(){
     if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
-    Pattern pattern = Pattern.compile("^[a-zA-Z0-9()]+$");
+    Pattern pattern = Pattern.compile("^[\\sa-zA-Z0-9()]+$");
     Matcher mather = pattern.matcher(this.nombre);
     if(!mather.find()) return "El nombre contiene caracteres invalido, deben ser [A-Za-z0-9()]";
     if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";

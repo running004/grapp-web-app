@@ -41,9 +41,11 @@ public class appController implements ErrorController{
         Boolean usuarioLoggeado = request.getSession().getAttribute("email")==null?false:true;
         model.addAttribute("usuarioLogin",usuarioLoggeado);
         model.addAttribute("username", request.getSession().getAttribute("email"));
+        
         BusquedaPrenda busqueda= new BusquedaPrenda(); 
         busqueda.todo(dataSource);
         model.addAttribute("busqueda", busqueda);
+        
     }
 
     @Value("${spring.datasource.url}")
@@ -57,9 +59,11 @@ public class appController implements ErrorController{
         model.addAttribute("usuarioLogin", false);
         buscado=false;
         botonLog(model,request);
-        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        BusquedaPrenda busqueda= new BusquedaPrenda();
         busqueda.todo(dataSource);
-		model.addAttribute("busqueda", busqueda);
+		model.addAttribute("miLista", busqueda.getmiLista());
+        System.out.println(busqueda.getmiLista());
+
         return "index.html";
     }
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -99,15 +103,29 @@ public class appController implements ErrorController{
     botonLog(model,request);     
     return "index.html";
     }
+    /*
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    String MostrarTodo( Model model, HttpServletRequest request){
+        BusquedaPrenda busqueda = new BusquedaPrenda();
+        busqueda.todo(dataSource);
+        model.addAttribute("miLista", busqueda.getmiLista());
+        System.out.println(busqueda.getmiLista());
+       
+        return "index.html";
+    }*/
+
     @GetMapping(value="/MiArmario")
     String MiArmario(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
+        BusquedaPrenda busqueda= new BusquedaPrenda();
+        busqueda.setemailUser((String) request.getSession().getAttribute("email"));
+        busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource);
+        model.addAttribute("miLista", busqueda.getmiLista());
         botonLog(model,request);
-        BusquedaPrenda busqueda= new BusquedaPrenda(); 
-        busqueda.todo(dataSource);
-		model.addAttribute("busqueda", busqueda);
+        System.out.println(busqueda.getmiLista());
         return "MiArmario.html";
     }
+
     @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
     String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
         busqueda.setemailUser((String) request.getSession().getAttribute("email"));
@@ -157,13 +175,16 @@ public class appController implements ErrorController{
         else{
             model.addAttribute("yaCreado", false);
             model.addAttribute("errorDatos", false);
+            String generatedId = imgUrlScraper.uploadImg(prenda.getImg());  
+            String URL =  imgUrlScraper.getImageUrl(generatedId);
+            prenda.setfoto(URL);
             String insertar=prenda.insertPrenda(prenda.getnombre(),prenda.getemailUser(),prenda.getdescripcion(),prenda.getfoto(),dataSource);
         }
         botonLog(model,request);
         BusquedaPrenda busqueda= new BusquedaPrenda(); 
         busqueda.todo(dataSource);
         model.addAttribute("busqueda", busqueda);
-        return "MiArmario.html ";
+        return "MiArmario.html";
     }
     @GetMapping(value="/signup")
     String signup(Model model, HttpServletRequest request){ 

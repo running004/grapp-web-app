@@ -29,15 +29,15 @@
 
         
                 <li th:if="${usuarioLogin == true}" class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i>
+                  <a class="nav-link " href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i>
                     <label th:text="${username}"></label>
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <!--<ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                     <li><a class="dropdown-item" href="#">Estadísticas</a></li>
                     <li><a class="dropdown-item" href="#">Mi cuenta</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
-                  </ul>
+                  </ul>-->
                 </li>
              
               <ul th:if="${usuarioLogin == false}">
