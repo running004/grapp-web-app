@@ -26,12 +26,13 @@ public class BusquedaPrendaTest {
      //prueba de buscar prenda por nombre
      @Test
      public void buscarPrendaValida(){
-         // DataSource data = Connect.getConnect().getDataSource();
-        User u = new User("prueba@gmail.es", "12345678", "12345678");
-        u.insertUser(data);
-        Prenda prenda = new Prenda("camiseta", "prueba@gmail.es", "nosequeponeraqui", "fotodecamiseta");
-        prenda.insertPrenda(prenda.getnombre(), prenda.getemailUser(), prenda.getdescripcion(),
-             prenda.getfoto(), data);
+        User u = new User("megaJuan991@gmail.es", "12345678", "12345678");
+       /* u.insertUser(data);*/
+        u.searchUser(data);
+        Prenda prenda = new Prenda("zapatos", "megaJuan991@gmail.es", "bit.ly/3vg0cyB", "zapatosGucci");
+       /* prenda.insertPrenda(prenda.getnombre(), prenda.getemailUser(), prenda.getdescripcion(),
+             prenda.getfoto(), data);*/
+        prenda.searchPrendaPorNombre(prenda.getnombre(), data);
         BusquedaPrenda busq = new BusquedaPrenda();
         assertEquals("", busq.BuscarPorNombre(prenda.getnombre(), data));
      }
@@ -48,7 +49,7 @@ public class BusquedaPrendaTest {
             busq.BuscarPorNombre(userMal.getnombre(), data));
      }
 
-     @AfterAll
+    /* @AfterAll
      public static void borradoDatos(){
          //borramos el usuario insertado correctamente
          String query = "delete from usuarios where email = 'test@test.test'";
@@ -60,6 +61,6 @@ public class BusquedaPrendaTest {
              e.printStackTrace();
          }
              
-     }
+     }*/
 
 }

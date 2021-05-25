@@ -85,6 +85,7 @@ public class User
             stmt.executeUpdate("INSERT INTO USUARIOS VALUES ('"+ this.email + "', '" + hashContrasenia(this.contrasenia) +"')");
             return "Usuario insertado correctamente";
         } catch(Exception e){
+            e.printStackTrace();
             return "Fallo al insertar usuario, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres";
         }
 

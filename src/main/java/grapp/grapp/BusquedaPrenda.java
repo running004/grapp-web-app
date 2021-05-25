@@ -87,13 +87,14 @@ public class BusquedaPrenda
         boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre="+nombre+" ");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"' ");
             while(rs.next()){
-                Prenda aux= new Prenda(rs.getString("nombre"),rs.getString("foto") ,rs.getString("descripcion"),rs.getString("emailUser"));
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
                 miLista.add(aux);
                 encontrado = true;
         }
         } catch(Exception e){
+            e.printStackTrace();
             System.out.println("Fallo al buscar la prenda por nombre");
         }
         return encontrado;
