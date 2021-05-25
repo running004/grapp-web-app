@@ -163,7 +163,7 @@ public class appController implements ErrorController{
         BusquedaPrenda busqueda= new BusquedaPrenda(); 
         busqueda.todo(dataSource);
         model.addAttribute("busqueda", busqueda);
-        return "MiArmario.html ";
+        return "MiArmario.html";
     }
     @GetMapping(value="/signup")
     String signup(Model model, HttpServletRequest request){ 
