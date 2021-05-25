@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Prenda
 {
@@ -43,45 +45,38 @@ public class Prenda
         this.descripcion = descripcion;
     }
     
-public boolean comprobarDatos(){
-    if(this.nombre.length()>50) return false; // falta poner que no haya caracteres raros
-    if(this.descripcion.length()> 280) return false;
-    return true;
+public String comprobarDatos(){
+    if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
+    Pattern pattern = Pattern.compile("^[\sa-zA-Z0-9()]+$");
+    Matcher mather = pattern.matcher(this.nombre);
+    if(!mather.find()) return "El nombre contiene caracteres invalido, deben ser [A-Za-z0-9()]";
+    if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
+    return null;
 }
+
     
     public String insertPrenda(String nombre, String usuario, String descripcion, String foto, DataSource dataSource){
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO USUARIOS VALUES ("+ emailUser + ", " + usuario+", "+ descripcion+ ", " + foto+")");
+            stmt.executeUpdate("INSERT INTO PRENDAS VALUES ('"+ nombre+ "', '" + foto +"', '" + descripcion +"', '" + usuario +"')");
             return "Prenda insertada correctamente";
         } catch(Exception e){
             return "Fallo al insertar prenda, recuerde que debe ser un nombre y descripcion válida";
         }
 
-    }/*
-    public boolean searchUser(String emailUser, String foto, DataSource dataSource){
-        boolean logueado = false;
-        try (Connection c = dataSource.getConnection()) {
-            Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' AND foto='"+foto+"' ");
-            if(rs.next()) logueado = true;
-        } catch(Exception e){
-            System.out.println("Fallo al loguearse, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres");
-        }
-        return logueado;
     }
-
     
-    public boolean searchUserForSingUp(String emailUser, DataSource dataSource){
+    public boolean searchPrendaPorNombre(String nombre, String emailUser, DataSource dataSource){
         boolean existe = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
-            if(rs.next()) existe = true;
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM PRENDAS WHERE nombre='"+nombre+"'AND propietario='"+emailUser+"' ");
+            if(rs.next()){
+                if(rs.getInt(1) != 0)existe = true;
+            } 
         } catch(Exception e){
-            System.out.println("Usuario ya existente");
+            System.out.println("Prenda con el mismo nombre");
         }
         return existe;
     }
-    */
 }

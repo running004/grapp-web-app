@@ -14,40 +14,52 @@
 <body>
     <header th:insert="fragments/header.html"></header>
     <div class="container espacio2">
-        <h2>Añadir prenda</h2>
-        <br><br>
-        <form action="/upload" method="POST" th:object="${formulario}" enctype='multipart/form-data'>
-            <div class="row">
-                <div class="col">
-                  <input th:field="*{text}" type="text" class="form-control" placeholder="Nombre de la prenda" aria-label="First name">
-                </div>
-                <br>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label" ></label>
-                    <textarea class="form-control" placeholder="Descripción(280 caracteres como máximo)" id="exampleFormControlTextarea1" rows="3"></textarea>
-                  </div>
-                <br><br>
-                <div class="input-group mb-3">
-                    <input th:field="*{img}" type="file" class="form-control" id="inputGroupFile02">
-                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                </div>
-                  <button type="submit" class="btn btn-primary">Subir</button>
-            </div>
-              
-          </form>
-
-          <div class="formResult">
-                <hr>
-                <p>Aqui abajo se generará tu id</p>
-                <p style="color:aqua" th:text="${id}">Ok</p>
-                <p>Subiste esta imagen</p>
-                <img th:src="${imgUrl}"/>
-                <p>A este usuario</p>
-                <p style="color:darkcyan" th:text="${userID}">Ok</p>
-                <p style="color: red;" th:text="${excepcion}">OK</p>
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h1 class="text-center">Añadir prenda</h1>
+        </div>
+        <div class="col-4"></div>
+      </div>
+      <br><br>
+      <ul th:if="${errmessg != null}">
+        <p style="color: red;" th:text = "${errmessg}"></p>
+      </ul>
+      <form th:action="@{/upload}" th:object="${prenda}" method="POST">
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4">
+            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Nombre" aria-label="First name">
           </div>
-          <p th:text="${exito}">exito</p>
-    </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4">
+            <label for="exampleFormControlTextarea1" class="form-label" ></label>
+            <textarea th:field="*{descripcion}" class="form-control" placeholder="Descripción (280 caracteres como máximo)" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4">
+            <input th:field="*{foto}" type="file" class="form-control" id="inputGroupFile02">
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-5"></div>
+          <div class="col-2 d-grid gap-2">
+            <button type="submit" class="btn btn-outline-success btn-lg">Subir</button>
+          </div>
+          <div class="col-5"></div>
+        </div>
+      </form>
+
+  
 
     <footer th:insert="fragments/footer.html"></footer>
 </body>

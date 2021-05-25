@@ -17,32 +17,17 @@ public class User
         this.email = email;
         this.contrasenia = contrasenia;
         this.contraseniaRepetida=contraseniaRepetida;
-        /*this.email = email;
-        this.apellidos = apellidos;*/
     }
-    /*public String getNombre() {
-        return nombre;
-    }*/
     public String getEmail() {
         return email;
-    }
-    /*public String getApellidos() {
-        return apellidos;
-    }*/
-    public String getContrasenia() {
-        return contrasenia;
     }
     public String getContraseniaRepetida() {
         return contraseniaRepetida;
     }
-    
-
-    /*public void setNombre(String nombre) {
-        this.nombre=nombre;
+    public String getContrasenia() {
+        return contrasenia;
     }
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }*/
+
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
@@ -53,6 +38,7 @@ public class User
     public void setEmail(String email) {
         this.email = email;
     }
+
     public boolean validarMail() {
         if (!this.email.equals("")) {
              Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -62,11 +48,7 @@ public class User
          } else {
              return false;
          }
-         // end-user-code<
      }
-/**
- * 
- */
     public String comprobarDatos(){
         if(this.email==null || this.contrasenia==null || this.contraseniaRepetida==null ) return "Completa todos los campos";
         if(!validarMail()) return "Error de formato del correo.";
@@ -74,6 +56,7 @@ public class User
         if(!this.contrasenia.equals(contraseniaRepetida)) return "La contraseña no coincide";
          return null;
     }
+
     public Boolean login(String email, String contrasenia){
         return this.email.equals(email) && this.contrasenia.equals(contrasenia);
     }

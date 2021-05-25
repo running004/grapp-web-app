@@ -13,62 +13,123 @@ import java.util.List;
 public class BusquedaPrenda
 {
     private List<Prenda> miLista ;
-    public BusquedaPrenda(){
+    private String nombre, emailUser;
+    public BusquedaPrenda(){}
+    public BusquedaPrenda(String nombre, String emailUser){
         miLista = new ArrayList<Prenda>();
-    }
-    public Boolean BuscarPorNombre(String nombre){
+        this.nombre=nombre;
+        this.emailUser=emailUser;
 
-         return true;
     }
-    
-    public Boolean BuscarPorUsuario(String nombre){
-
-        return true;
+    public List<Prenda> getmiLista(){
+        return this.miLista;
     }
-    
-    public Boolean BuscarMiArmarioTodo(String nombre){
-
-        return true;
+    public String getnombre(){
+        return nombre;
     }
-    
-    public Boolean BuscarMiArmarioPorNombre(String nombre){
-
-        return true;
+    public String getemailUser(){
+        return emailUser;
     }
-    /*
-    public String insertUser(String emailUser, String foto, DataSource dataSource){
+    public void setmiLista(List<Prenda> miLista){
+        this.miLista=miLista;
+    }
+    public void setnombre(String nombre){
+        this.nombre=nombre;
+    }
+    public void setemailUser(String emailUser){
+        this.emailUser=emailUser;
+    }
+    public String BuscarPorUsuario(String nombre,DataSource dataSource){ // cambiarlo a strings
+        if(!validarExisteUsuario(nombre,dataSource)) return "Este usuario no existe";
+        if(!rellenarPorUsuario(nombre,dataSource)) return "El usuario no tiene subida ninguna prenda";
+        // buscar en la tabla de prendas por ese usario y rellenar la lista
+         return null;
+     }
+     public String BuscarPorNombre(String nombre,DataSource dataSource){ // cambiarlo a strings
+        if(!validarNombrePrenda(nombre, dataSource)) return "El formato del nombre de la prenda no es valido";
+        if(!rellenarPorNombre(nombre,dataSource)) return "No existen prendas con este nombre";
+        // buscar en la tabla de prendas por ese usario y rellenar la lista
+         return null;
+     }
+     public String BuscarPorNombreyUsuario(String nombre,String emailUser, DataSource dataSource){ // cambiarlo a strings
+        if(!rellenarPorNombreyUsuario(nombre,emailUser,dataSource)) return "El nombre y/o el usuario no existe";
+        // buscar en la tabla de prendas por ese usario y rellenar la lista
+         return null;
+     }
+     public boolean validarExisteUsuario(String emailUser, DataSource dataSource){
+        boolean encontrado = false;
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            stmt.executeQuery("INSERT INTO USUARIOS VALUES ("+ emailUser + ", " + hashfoto(foto) +")");
-            return "Usuario insertado correctamente";
+            ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIOS WHERE email='"+emailUser+"' ");
+            if(rs.next()) encontrado = true;
         } catch(Exception e){
-            return "Fallo al insertar usuario, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres";
+            System.out.println("No existe este usuario.");
         }
-
+        return encontrado;
     }
-    public boolean searchUser(String emailUser, String foto, DataSource dataSource){
-        boolean logueado = false;
-        try (Connection c = dataSource.getConnection()) {
-            Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' AND foto='"+foto+"' ");
-            if(rs.next()) logueado = true;
-        } catch(Exception e){
-            System.out.println("Fallo al loguearse, recuerde que debe ser un correo válido y la contraseña como mínimo debe tener 8 caracteres");
-        }
-        return logueado;
-    }
-
     
-    public boolean searchUserForSingUp(String emailUser, DataSource dataSource){
-        boolean existe = false;
+    public Boolean rellenarPorUsuario(String usuario, DataSource dataSource){
+        boolean encontrado = false;
+        miLista = new ArrayList<Prenda>();
         try (Connection c = dataSource.getConnection()) {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM USUARIOS WHERE emailUser='"+emailUser+"' ");
-            if(rs.next()) existe = true;
-        } catch(Exception e){
-            System.out.println("Usuario ya existente");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS WHERE propietario='"+usuario+"' ");
+            while(rs.next()){
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
+                miLista.add(aux);
+                encontrado = true;
         }
-        return existe;
+        } catch(Exception e){
+            System.out.println("Fallo al buscar la prenda por nombre");
+        }
+        return encontrado;
     }
-    */
+
+    public Boolean rellenarPorNombre(String nombre, DataSource dataSource){
+        boolean encontrado = false;
+        miLista = new ArrayList<Prenda>();
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS WHERE nombre='"+nombre+"' ");
+            while(rs.next()){
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
+                miLista.add(aux);
+                encontrado = true;
+        }
+        } catch(Exception e){
+            System.out.println("Fallo al buscar la prenda por nombre");
+        }
+        return encontrado;
+    }
+    public Boolean rellenarPorNombreyUsuario(String nombre,String emailUser, DataSource dataSource){
+        boolean encontrado = false;
+        miLista = new ArrayList<Prenda>();
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS WHERE nombre='"+nombre+"' AND propietario='"+emailUser+"' ");
+            while(rs.next()){
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
+                miLista.add(aux);
+                encontrado = true;
+        }
+        } catch(Exception e){
+            System.out.println("Fallo al buscar la prenda por nombre");
+        }
+        return encontrado;
+    }
+    public void todo(DataSource dataSource){
+        try (Connection c = dataSource.getConnection()) {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM PRENDAS");
+            while(rs.next()){
+                Prenda aux= new Prenda(rs.getString("nombre") ,rs.getString("propietario") ,rs.getString("imgurl"),rs.getString("descripcion"));
+                miLista.add(aux);
+        }
+        } catch(Exception e){
+
+        }
+    }
+    public Boolean validarNombrePrenda(String nombre, DataSource dataSource){
+        return nombre.matches("[a-zA-Z]*");
+    }
 }

@@ -35,12 +35,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class appController implements ErrorController{
     Boolean usuarioLoggeado = false;
-   
+    Boolean buscado=true;
     //Para en el header no mostrar el boton de login cuando el usuario haya iniciado sesion
-    void botonLog(Model model, HttpServletRequest request){   
+    void botonLog(Model model, HttpServletRequest request){
         Boolean usuarioLoggeado = request.getSession().getAttribute("email")==null?false:true;
         model.addAttribute("usuarioLogin",usuarioLoggeado);
         model.addAttribute("username", request.getSession().getAttribute("email"));
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+        model.addAttribute("busqueda", busqueda);
     }
 
     @Value("${spring.datasource.url}")
@@ -49,36 +52,118 @@ public class appController implements ErrorController{
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping(value= "/")
-    String index(Model model, HttpServletRequest request){
+    @GetMapping(value="/")
+    String index(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
-        model.addAttribute("key", "prueba");
-        List<String> listado = new ArrayList<String>();
-        listado.add("Pagina principal: vuelve a la página principal");
-        listado.add("Subir fotos: te permite subir una foto devolviendo un id");
-        listado.add("Ver fotos: te permite ver las fotos subidas mediante id");
-        model.addAttribute("features", listado);
+        buscado=false;
         botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "index.html";
     }
-
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    String BuscarPrenda(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
+        model.addAttribute("busqueda", new BusquedaPrenda());//
+        if(busqueda.getnombre()!="" && busqueda.getemailUser()!=""){ // busqueda por nombre y usuario
+           if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{
+            model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+           }
+        }
+        else if(busqueda.getnombre()!="" ){ //busqueda por nombre
+            if( busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource)==null){
+                List miLista=busqueda.getmiLista();
+                model.addAttribute("miLista", miLista);
+               }
+               else{
+                model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+               }
+        }
+        else if(busqueda.getemailUser()!="" ){ // busqueda por usuario
+            if(busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+                List miLista=busqueda.getmiLista();
+                model.addAttribute("miLista", miLista);
+               }
+               else{
+                model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
+               }
+        }
+    else { 
+        busqueda.todo(dataSource);
+        model.addAttribute("miLista",busqueda.getmiLista());
+    }
+    botonLog(model,request);     
+    return "index.html";
+    }
     @GetMapping(value="/MiArmario")
     String MiArmario(Model model,@Valid formulario formulario, HttpServletRequest request){
         model.addAttribute("usuarioLogin", false);
         botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
         return "MiArmario.html";
     }
-
-    @GetMapping(value="/searchPrenda")
-    String searchPrenda(Model model,@Valid formulario formulario, HttpServletRequest request){        
-        botonLog(model,request);
-        return "searchPrenda";
+    @RequestMapping(value = "/MiArmario", method = RequestMethod.POST)
+    String BuscarPrendaMiArmario(BusquedaPrenda busqueda, Model model, HttpServletRequest request){
+        busqueda.setemailUser((String) request.getSession().getAttribute("email"));
+        if(busqueda.getnombre()!="" && busqueda.getemailUser()!=null){ // busqueda por nombre y usuario
+           if(busqueda.BuscarPorNombreyUsuario(busqueda.getnombre(), busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{
+            model.addAttribute("errmessg", busqueda.BuscarPorNombre(busqueda.getnombre(), dataSource));
+           }
+        }
+        else{
+        if( busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource)==null){
+            List miLista=busqueda.getmiLista();
+            model.addAttribute("miLista", miLista);
+           }
+           else{   // poner el user de la sesion
+            model.addAttribute("errmessg", busqueda.BuscarPorUsuario(busqueda.getemailUser(), dataSource));
+           }
+        }
+    botonLog(model,request);     
+    return "MiArmario.html";
     }
-    
     @GetMapping(value="/upload")
     String upload(Model model,@Valid formulario formulario, HttpServletRequest request){        
+        Prenda prenda =new Prenda();
+        model.addAttribute("prenda",prenda);
         botonLog(model,request);
         return "upload.html";
+    }
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String crearPrenda(Prenda prenda,Model model, HttpServletRequest request) {
+        model.addAttribute("prenda", new Prenda());
+        String comprobacion = prenda.comprobarDatos();
+        prenda.setemailUser((String) request.getSession().getAttribute("email"));
+        if(comprobacion !=null){
+            model.addAttribute("errmessg", comprobacion);
+            return "upload.html";
+        }
+        Boolean existe=prenda.searchPrendaPorNombre(prenda.getnombre(),prenda.getemailUser(), dataSource);
+        if(existe){
+            //mandar error al html de user ya creado
+            model.addAttribute("errmessg", "Prenda con el mismo nombre");
+            return "upload.html ";
+        }
+        else{
+            model.addAttribute("yaCreado", false);
+            model.addAttribute("errorDatos", false);
+            String insertar=prenda.insertPrenda(prenda.getnombre(),prenda.getemailUser(),prenda.getdescripcion(),prenda.getfoto(),dataSource);
+        }
+        botonLog(model,request);
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+        model.addAttribute("busqueda", busqueda);
+        return "MiArmario.html ";
     }
     @GetMapping(value="/signup")
     String signup(Model model, HttpServletRequest request){ 
@@ -115,11 +200,12 @@ public class appController implements ErrorController{
 	public String crearFormularioUsuario(Model model, HttpServletRequest request) {
 		User usuario = new User();
 		model.addAttribute("usuario", usuario);
-        botonLog(model,request);
-		return "login.html"; 
-	}
+        BusquedaPrenda busqueda= new BusquedaPrenda(); 
+        busqueda.todo(dataSource);
+		model.addAttribute("busqueda", busqueda);
+        return "login.html";
+    }
 
-    // LOGIN
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Model model, User usuario, HttpServletRequest request) {
         model.addAttribute("error", usuario.comprobarDatos());
@@ -130,14 +216,17 @@ public class appController implements ErrorController{
             if(usuario.searchUser(dataSource)){
                 request.getSession().setAttribute("email", usuario.getEmail());
                 botonLog(model,request);
+                BusquedaPrenda busqueda= new BusquedaPrenda(); 
+                busqueda.todo(dataSource);
+                model.addAttribute("busqueda", busqueda);
                 return "index.html";
             } else {
-            model.addAttribute("error", "No existe esa cuenta");
+            model.addAttribute("errmessg", "El correo o la contraseña no coinciden.");
             model.addAttribute("usuario", new User());
             return "login.html";
             }
         }catch(Exception e){
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errmessg", e.getMessage());
             e.printStackTrace();
             model.addAttribute("usuario", new User());
             return "login.html";
@@ -164,7 +253,6 @@ public class appController implements ErrorController{
         // TODO Auto-generated method stub
         return "/error";
     }
-
     @Bean
     public DataSource dataSource() throws SQLException {
       if (dbUrl == null || dbUrl.isEmpty()) {
@@ -175,5 +263,6 @@ public class appController implements ErrorController{
         return new HikariDataSource(config);
       }
     }
+    
 
 }
