@@ -78,12 +78,12 @@ public class SearchClothesUserTest {
     @AfterAll
     public static void borradoDatos(){
         //borramos los usuarios y la prenda insertados correctamente
-        String query = "delete from usuarios where email = 'test@test.test'";
+        String query = "delete from prendas where propietario = 'test@test.test'";
         PreparedStatement preparedStmt;
         try {
             preparedStmt = dataS.getConnection().prepareStatement(query);
             preparedStmt.execute();
-            query = "delete from prendas where propietario = 'test@test.test'";
+            query = "delete from usuarios where email = 'test@test.test'";
             preparedStmt = dataS.getConnection().prepareStatement(query);
             preparedStmt.execute();
             query = "delete from usuarios where email = 'noValido@noValido.not'";
