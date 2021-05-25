@@ -49,14 +49,14 @@ public class PrendaGR3Test {
    public void InsertarPrenda(){
    
       Prenda ropa = new Prenda();
-      assertEquals(ropa.insertPrenda("Ropa valida8()", "noseque@algo.com", "Descripcion valida", "ropa.jpg", dataS), "Prenda insertada correctamente");        
+      assertEquals(ropa.insertPrenda("Ropa valida8()", "asdasd@asd.com", "Descripcion valida", "ropa.jpg", dataS), "Prenda insertada correctamente");        
      
    }
 
    @AfterAll
-   public void BorrarDatos(){
+   static public void BorrarDatos(){
 
-      String query = "delete from PRENDAS where propietario = 'noseque@algo.com'";
+      String query = "delete from PRENDAS where propietario = 'asdasd@asd.com' AND NOMBRE = 'Ropa valida8()'";
       PreparedStatement preparedStmt;
       
       try {
