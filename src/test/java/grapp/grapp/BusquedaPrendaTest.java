@@ -53,7 +53,7 @@ public class BusquedaPrendaTest {
      }
 
     @AfterAll
-     public static void borrar(){
+     static public void borrar(){
          //borramos el usuario insertado correctamente
          String query = "delete from prendas where propietario  = 'JuanCuesta@gmail.es'";
          PreparedStatement preparedStmt;
