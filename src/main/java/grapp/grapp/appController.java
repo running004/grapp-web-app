@@ -132,13 +132,12 @@ public class appController implements ErrorController{
                 botonLog(model,request);
                 return "index.html";
             } else {
-            model.addAttribute("error", "No existe esa cuenta");
-            model.addAttribute("usuario", new User());
+                model.addAttribute("error", "No existe esa cuenta");
+                model.addAttribute("usuario", new User());
             return "login.html";
             }
         }catch(Exception e){
-            model.addAttribute("error", e.getMessage());
-            e.printStackTrace();
+            model.addAttribute("error", usuario.comprobarDatos());
             model.addAttribute("usuario", new User());
             return "login.html";
         }
