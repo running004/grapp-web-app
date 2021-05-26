@@ -47,7 +47,12 @@ public class Prenda
         return img;
     }
     public void setImg(MultipartFile  img) {
-        this.img = img;
+        try{
+            this.img = img;
+        }catch(Exception e){
+            this.img = null;
+        }
+        
     }
     public void setfoto(String foto) {
         this.foto = foto;
@@ -67,9 +72,14 @@ public class Prenda
 
     
 public String comprobarDatos(){
+    if(this.nombre.isEmpty()) return "El campo nombre no esta rellenado";
     if(this.nombre.length()>50) return "El nombre no puede tener mas de 50 caracteres."; // falta poner que no haya caracteres raros
     Pattern pattern = Pattern.compile("^[\\sa-zA-Z0-9()]+$");
     Matcher mather = pattern.matcher(this.nombre);
+    double size = img.getSize() * 0.00000095367432;//Para que de en MB
+    if(size >= 5) return "El tamaño del archivo no puede pasar mas de 5MB";
+    String tipoArchivo = img.getContentType();
+    if(!tipoArchivo.equals("image/jpg") && !tipoArchivo.equals("image/jpeg") && !tipoArchivo.equals("image/png")) return " El tipo de archivo debe ser jpg o png";
     if(!mather.find()){return "El nombre contiene caracteres invalido, deben ser letras, numeros y ()";}
     if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
     return null;

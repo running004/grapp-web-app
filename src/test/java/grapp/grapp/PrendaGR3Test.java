@@ -40,6 +40,10 @@ public class PrendaGR3Test {
       
       ropa = new Prenda("Ropa no valida","noseque@algo.com", "url ropa", "Descripcion no valida xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       assertEquals(ropa.comprobarDatos(), "La descripcion no puede tener mas de 280 caracteres."); 
+
+      ropa = new Prenda("","noseque@algo.com", "url ropa", "Descripcion no valida ");
+      assertEquals(ropa.comprobarDatos(), "El campo nombre no esta rellenado"); 
+
         
    }
 
@@ -54,7 +58,7 @@ public class PrendaGR3Test {
    }
 
    @AfterAll
-   static public void BorrarDatos(){
+   public static void BorrarDatos(){
 
       String query = "delete from PRENDAS where propietario = 'asdasd@asd.com' AND NOMBRE = 'Ropa valida8()'";
       PreparedStatement preparedStmt;
