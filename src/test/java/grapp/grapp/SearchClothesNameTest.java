@@ -26,21 +26,21 @@ public class SearchClothesNameTest {
     public void usuarioPrendasValidos() throws SQLException{
 
         User usuarioValido = new User("FranCuesta@ucm.es", "12345678", "12345678");
-        Prenda prendaValida = new Prenda();
+        Prenda valida = new Prenda("zapatos", "FranCuesta@ucm.es", "realizando prueba", "imagen");
         BusquedaPrenda bp = new BusquedaPrenda();
 
         //realizamos todas las pruebas con un usuario valido y una prenda valida, que no existan en la base de datos y se inserten correctamente
         usuarioValido.insertUser(dataS);
-        prendaValida.insertPrenda("zapatos", "FranCuesta@ucm.es", "realizando prueba", "imagen", dataS);
+        valida.insertPrenda("zapatos", "FranCuesta@ucm.es", "realizando prueba", "imagen", dataS);
 
         //Comenzamos comprobando el metodo que valida que existe un usuario
         assertTrue(bp.validarExisteUsuario(usuarioValido.getEmail(), dataS));
 
         //Aquí se rellena la lista con las prendas que posea el usuario, probamos que exista alguna
-        assertTrue(bp.rellenarPorNombre(usuarioValido.getEmail(), dataS));
+        assertTrue(bp.rellenarPorNombre(valida.getnombre(), dataS));
 
         //Aqui comprobamos la llamada a ambos metodos que debe retornar null en caso de no existir ningún error
-        assertNull(bp.BuscarPorNombre( usuarioValido.getEmail(), dataS));
+        assertNull(bp.BuscarPorNombre(valida.getnombre(), dataS));
     }
 
 
@@ -58,7 +58,7 @@ public class SearchClothesNameTest {
         BusquedaPrenda bp = new BusquedaPrenda();
 
         assertEquals("El formato del nombre de la prenda no es valido", bp.BuscarPorNombre( noValida.getnombre(), dataS));
-        assertEquals("El formato del nombre de la prenda no es valido", bp.BuscarPorNombre( noExiste.getnombre(), dataS));
+        assertEquals("No existen prendas con este nombre", bp.BuscarPorNombre( noExiste.getnombre(), dataS));
         }
 
     @AfterAll
