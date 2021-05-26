@@ -146,7 +146,7 @@ public class BusquedaPrenda
     }
   
     public Boolean validarNombrePrenda(String nombre, DataSource dataSource){
-        return nombre.matches("[a-zA-Z]*");
+        return nombre.matches("[a-zA-Z0-9]*");
     }
     public boolean validarMail(String email) {
         if (!email.equals("")) {
