@@ -79,7 +79,7 @@ public String comprobarDatos(){
     double size = img.getSize() * 0.00000095367432;//Para que de en MB
     if(size >= 5) return "El tamaño del archivo no puede pasar mas de 5MB";
     String tipoArchivo = img.getContentType();
-    if(!tipoArchivo.equals("image/jpg") && !tipoArchivo.equals("image/jpeg") && !tipoArchivo.equals("image/png")) return " El tipo de archivo debe ser jpg o png";
+    if(!tipoArchivo.equals("image/jpg") && !tipoArchivo.equals("image/jpeg") && !tipoArchivo.equals("image/png")) return "El tipo de archivo debe ser jpg o png";
     if(!mather.find()){return "El nombre contiene caracteres invalido, deben ser letras, numeros y ()";}
     if(this.descripcion.length()> 280) return "La descripcion no puede tener mas de 280 caracteres.";
     return null;
