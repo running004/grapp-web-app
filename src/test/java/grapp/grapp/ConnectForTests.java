@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import com.zaxxer.hikari.HikariConfig;
+import  com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class ConnectForTests {
@@ -35,6 +35,7 @@ public class ConnectForTests {
           dataSource = new HikariDataSource();
         } else {
           HikariConfig config = new HikariConfig();
+          config.setMaximumPoolSize(1);
           config.setJdbcUrl(dbUrl);
           dataSource = new HikariDataSource(config);
         }
