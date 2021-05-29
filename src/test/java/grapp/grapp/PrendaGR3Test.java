@@ -139,26 +139,4 @@ public class PrendaGR3Test {
      
    }
 
-   @BeforeAll
-   public static void InsertarDatos(){
-
-      String query = "INSERT INTO usuarios VALUES ('asdasd@asd.es', '69')";
-      PreparedStatement preparedStmt = null;
-      
-      try {
-          preparedStmt = dataS.getConnection().prepareStatement(query);
-          try{
-               preparedStmt.execute();
-            }catch(SQLException e){
-               e.printStackTrace();
-           }finally{
-            preparedStmt.close();
-           }       
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-        
-     
-   }
-
 }
