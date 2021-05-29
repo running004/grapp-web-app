@@ -28,7 +28,7 @@ public class SearchClothesUserTest {
     @Order(1)
     public void usuarioPrendasValidos() throws SQLException{
 
-        User usuarioValido = new User("test@test.test", "12345678", "12345678");
+        User usuarioValido = new User("test@test.testa", "12345678", "12345678");
         Prenda prendaValida = new Prenda();
         BusquedaPrenda bp = new BusquedaPrenda();
 
@@ -70,7 +70,7 @@ public class SearchClothesUserTest {
         assertEquals("El usuario no tiene subida ninguna prenda", bp.BuscarPorUsuario( usuarioSinPrendas.getEmail(), dataS));
 
         //probamos un usuario que no existe en el metodo completo
-        assertEquals("Este usuario no existe", bp.BuscarPorUsuario( "noExisto", dataS));
+        assertEquals("El formato de usuario es erroneo", bp.BuscarPorUsuario( "noExisto", dataS));
         }
         
     @AfterAll
@@ -81,7 +81,7 @@ public class SearchClothesUserTest {
         try {
             preparedStmt = dataS.getConnection().prepareStatement(query);
             preparedStmt.execute();
-            query = "delete from usuarios where email = 'test@test.test'";
+            query = "delete from usuarios where email = 'test@test.testa'";
             preparedStmt = dataS.getConnection().prepareStatement(query);
             preparedStmt.execute();
             query = "delete from usuarios where email = 'noValido@noValido.not'";
